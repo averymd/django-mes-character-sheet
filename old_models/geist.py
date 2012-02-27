@@ -32,18 +32,3 @@ from django.db import models
       # Subrace(name = "Stricken"),
       # Subrace(name = "Forgotten")
     # ]
-    
-  # def setup_keys(self):
-    # self.keys = [
-      # Trait(name = "Cold Wind", specific_dots = [1], trait_type = self.trait_types[4], uses_simple_calculation=true),
-      # Trait(name = "Grace-dirt", specific_dots = [1], trait_type = self.trait_types[4], uses_simple_calculation=true),
-      # Trait(name = "Pyre Flame", specific_dots = [1], trait_type = self.trait_types[4], uses_simple_calculation=true),
-      # Trait(name = "Tear-stained", specific_dots = [1], trait_type = self.trait_types[4], uses_simple_calculation=true),
-      # Trait(name = "Industrial", specific_dots = [1], trait_type = self.trait_types[4], uses_simple_calculation=true),
-      # Trait(name = "Passion", specific_dots = [1], trait_type = self.trait_types[4], uses_simple_calculation=true),
-      # Trait(name = "Phantasmal", specific_dots = [1], trait_type = self.trait_types[4], uses_simple_calculation=true),
-      # Trait(name = "Primeval", specific_dots = [1], trait_type = self.trait_types[4], uses_simple_calculation=true),
-      # Trait(name = "Stigmata", specific_dots = [1], trait_type = self.trait_types[4], uses_simple_calculation=true),
-      # Trait(name = "Stillness", specific_dots = [1], trait_type = self.trait_types[4], uses_simple_calculation=true),
-      # Trait(name = "Stygian", specific_dots = [1], trait_type = self.trait_types[4], uses_simple_calculation=true)
-    # ]
