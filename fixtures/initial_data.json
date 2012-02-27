@@ -714,5 +714,291 @@
       "trait_type": 2, 
       "uses_simple_calculation": false
     }
+  },
+  {
+    "pk": 53, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 1, 
+      "use": null, 
+      "name": "Computer", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 54, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 1, 
+      "use": null, 
+      "name": "Crafts", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 53, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 1, 
+      "use": null, 
+      "name": "Investigation", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 54, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 1, 
+      "use": null, 
+      "name": "Medicine", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 55, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 1, 
+      "use": null, 
+      "name": "Occult", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 56, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 1, 
+      "use": null, 
+      "name": "Politics", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 57, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 1, 
+      "use": null, 
+      "name": "Science", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 58, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Athletics", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 59, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Brawl", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 60, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Drive", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 61, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Firearms", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 62, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Larceny", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 63, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Stealth", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 64, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Weaponry", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 65, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": null, 
+      "name": "Animal Ken", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 66, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": null, 
+      "name": "Empathy", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 67, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": null, 
+      "name": "Expression", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 68, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": null, 
+      "name": "Intimidation", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 69, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": null, 
+      "name": "Persuasion", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 70, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": null, 
+      "name": "Socialize", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 71, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": null, 
+      "name": "Streetwise", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 72, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": null, 
+      "name": "Subterfuge", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
   }
 ]
