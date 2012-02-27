@@ -3,17 +3,23 @@ from django.db import models
 class TraitType(models.Model):
   name = models.CharField(max_length=100)
   default_xp_cost_per_dot = models.IntegerField()
+  
+  def __unicode__(self):
+    return self.name
 
 class Trait(models.Model):
-  category_options = (('Mental', 1), ('Physical', 2), ('Social', 3))
-  use_options = (('Power', 1), ('Finesse', 2), ('Resistance', 3))
+  category_options = ((1, 'Mental'), (2, 'Physical'), (3, 'Social'))
+  use_options = ((1, 'Power'), (2, 'Finesse'), (3, 'Resistance'))
   
   name = models.CharField(max_length=100)
-  category = models.IntegerField(choices=category_options)
-  use = models.IntegerField(choices=use_options)
-  specific_dots = models.CharField(max_length=10)
+  category = models.IntegerField(choices=category_options, blank=True, null=True)
+  use = models.IntegerField(choices=use_options, blank=True, null=True)
+  specific_dots = models.CharField(max_length=10, blank=True)
   trait_type = models.ForeignKey(TraitType)
-  custom_xp_per_dot = models.IntegerField()
+  custom_xp_per_dot = models.IntegerField(blank=True, null=True)
+  
+  def __unicode__(self):
+    return self.name
     
 class Game(models.Model):  
   name = models.CharField(max_length=200)
@@ -27,8 +33,11 @@ class Game(models.Model):
   merits = models.ManyToManyField(Trait, related_name='merits', limit_choices_to={'trait_type__name':'Merit'})
   skills = models.ManyToManyField(Trait, related_name='skills', limit_choices_to={'trait_type__name':'Skill'})
   
-  vice_options = (('Envy', 1), ('Gluttony', 2), ('Greed', 3), ('Lust', 4), ('Pride', 5), ('Sloth', 6), ('Wrath', 7))
-  virtue_options = (('Charity', 1), ('Faith', 2), ('Fortitude', 3), ('Hope', 4), ('Justice', 5), ('Prudence', 6), ('Temperance', 7))
+  vice_options = ((1, 'Envy'), (2, 'Gluttony'), (3, 'Greed'), (4, 'Lust'), (5, 'Pride'), (6, 'Sloth'), (7, 'Wrath'))
+  virtue_options = ((1, 'Charity'), (2, 'Faith'), (3, 'Fortitude'), (4, 'Hope'), (5, 'Justice'), (6, 'Prudence'), (7, 'Temperance'))
+  
+  def __unicode__(self):
+    return self.name
   
   class Meta:
     abstract = True
@@ -131,13 +140,22 @@ class Geist(Game):
 class Subrace(models.Model):
   name = models.CharField(max_length=100)
   game = models.ForeignKey(Geist, related_name='subraces')
+  
+  def __unicode__(self):
+    return self.name
     
 class Faction(models.Model):
   name = models.CharField(max_length=100)
   game = models.ForeignKey(Geist, related_name='factions')
+  
+  def __unicode__(self):
+    return self.name
   
 class Power(models.Model):
   name = models.CharField(max_length=100)
   xp_cost_per_dot = models.IntegerField()
   activation_traits = models.ManyToManyField(Trait, related_name='+')
   game = models.ForeignKey(Geist, related_name='powers')
+  
+  def __unicode__(self):
+    return self.name
