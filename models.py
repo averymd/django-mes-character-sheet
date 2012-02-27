@@ -16,6 +16,7 @@ class Trait(models.Model):
   use = models.IntegerField(choices=use_options, blank=True, null=True)
   specific_dots = models.CharField(max_length=10, blank=True)
   trait_type = models.ForeignKey(TraitType)
+  uses_simple_calculation = models.BooleanField()
   custom_xp_per_dot = models.IntegerField(blank=True, null=True)
   
   def __unicode__(self):
@@ -41,20 +42,7 @@ class Game(models.Model):
   
   class Meta:
     abstract = True
-
-  # def setup_attributes(self):
-    # this.attributes = [
-      # Trait(name = "Intelligence", trait_type = self.trait_types[0], use = Trait.use_options.power, category = Trait.category_options.mental, uses_simple_calculation = False),
-      # Trait(name = "Wits", trait_type = self.trait_types[0], use = Trait.use_options.finesse, category = Trait.category_options.mental, uses_simple_calculation = False),
-      # Trait(name = "Resolve", trait_type = self.trait_types[0], use = Trait.use_options.resistance, category = Trait.category_options.mental, uses_simple_calculation = False),
-      # Trait(name = "Strength", trait_type = self.trait_types[0], use = Trait.use_options.power, category = Trait.category_options.physical, uses_simple_calculation = False),
-      # Trait(name = "Dexterity", trait_type = self.trait_types[0], use = Trait.use_options.finesse, category = Trait.category_options.physical, uses_simple_calculation = False),
-      # Trait(name = "Stamina", trait_type = self.trait_types[0], use = Trait.use_options.resistance, category = Trait.category_options.physical, uses_simple_calculation = False),
-      # Trait(name = "Presence", trait_type = self.trait_types[0], use = Trait.use_options.power, category = Trait.category_options.social, uses_simple_calculation = False),
-      # Trait(name = "Manipulation", trait_type = self.trait_types[0], use = Trait.use_options.finesse, category = Trait.category_options.social, uses_simple_calculation = False),
-      # Trait(name = "Composure", trait_type = self.trait_types[0], use = Trait.use_options.resistance, category = Trait.category_options.social, uses_simple_calculation = False)
-    # ]
-  
+    
   # def setup_merits(self):
     # self.merits = [
       # Trait(name = "Common Sense", trait_type = self.trait_types[3], category = Trait.category_options.mental, uses_simple_calculation = true, specific_dots = [1]),

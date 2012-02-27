@@ -1,0 +1,172 @@
+[
+  {
+    "pk": 1, 
+    "model": "game_manager.traittype", 
+    "fields": {
+      "name": "Advantage", 
+      "default_xp_cost_per_dot": 8
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "game_manager.traittype", 
+    "fields": {
+      "name": "Skill", 
+      "default_xp_cost_per_dot": 3
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "game_manager.traittype", 
+    "fields": {
+      "name": "Attribute", 
+      "default_xp_cost_per_dot": 5
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "game_manager.traittype", 
+    "fields": {
+      "name": "Merit", 
+      "default_xp_cost_per_dot": 2
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "game_manager.traittype", 
+    "fields": {
+      "name": "Key", 
+      "default_xp_cost_per_dot": 10
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": null, 
+      "use": null, 
+      "name": "Psyche", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 1, 
+      "uses_simple_calculation": false
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 1, 
+      "use": 1, 
+      "name": "Intelligence", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 3, 
+      "uses_simple_calculation": false
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 1, 
+      "use": 2, 
+      "name": "Wits", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 3, 
+      "uses_simple_calculation": false
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 1, 
+      "use": 3, 
+      "name": "Resolve", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 3, 
+      "uses_simple_calculation": false
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": 1, 
+      "name": "Strength", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 3, 
+      "uses_simple_calculation": false
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": 2, 
+      "name": "Dexterity", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 3, 
+      "uses_simple_calculation": false
+    }
+  }, 
+  {
+    "pk": 7, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": 3, 
+      "name": "Stamina", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 3, 
+      "uses_simple_calculation": false
+    }
+  }, 
+  {
+    "pk": 8, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": 1, 
+      "name": "Presence", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 3, 
+      "uses_simple_calculation": false
+    }
+  }, 
+  {
+    "pk": 9, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": 2, 
+      "name": "Manipulation", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 3, 
+      "uses_simple_calculation": false
+    }
+  }, 
+  {
+    "pk": 10, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": 3, 
+      "name": "Composure", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 3, 
+      "uses_simple_calculation": false
+    }
+  }
+]
