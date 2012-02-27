@@ -168,5 +168,551 @@
       "trait_type": 3, 
       "uses_simple_calculation": false
     }
+  }, 
+  {
+    "pk": 11, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 1, 
+      "use": null, 
+      "name": "Common Sense", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "1", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  }, 
+  {
+    "pk": 12, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 1, 
+      "use": null, 
+      "name": "Danger Sense", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "2", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  }, 
+  {
+    "pk": 13, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 1, 
+      "use": null, 
+      "name": "Eidetic Memory", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "2", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 14, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 1, 
+      "use": null, 
+      "name": "Encyclopedic Knowledge", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "4", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 15, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 1, 
+      "use": null, 
+      "name": "Holistic Awareness", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "3", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 16, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 1, 
+      "use": null, 
+      "name": "Language", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "1", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 17, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 1, 
+      "use": null, 
+      "name": "Meditative Mind", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "1", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 18, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 1, 
+      "use": null, 
+      "name": "Unseen Sense", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "3", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 19, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Ambidextrous", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "3", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 20, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Brawling Dodge", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "1", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 21, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Direction Sense", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "1", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 22, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Disarm", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "2", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 23, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Danger Sense", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "2", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 24, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Fast Reflexes", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "1,2", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 25, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Fighting Finesse", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "2", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 26, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Fighting Style: Boxing", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 4, 
+      "uses_simple_calculation": false
+    }
+  },
+  { 
+    "pk": 27, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Fighting Style: Kung Fu", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 4, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 28, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Fighting Style: Two Weapons", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 4, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 29, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Fleet of Foot", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "1,2,3", 
+      "trait_type": 4, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 30, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Giant", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "4", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 31, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Gunslinger", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "3", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 32, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Iron Stamina", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "1,2,3", 
+      "trait_type": 4, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 33, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Iron Stomach", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "2", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 34, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Natural Immunity", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "1", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 35, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Quick Draw", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "1", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 36, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Quick Healer", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "4", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 37, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Strong Back", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "1", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 38, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Strong Lungs", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "3", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 39, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Stunt Driver", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "3", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 40, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Toxin Resistance", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "2", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 41, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 2, 
+      "use": null, 
+      "name": "Weaponry Dodge", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "1", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 42, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": null, 
+      "name": "Allies", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 4, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 43, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": null, 
+      "name": "Barfly", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "1", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 44, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": null, 
+      "name": "Contacts", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 4, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 45, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": null, 
+      "name": "Fame", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "1,2,3", 
+      "trait_type": 4, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 46, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": null, 
+      "name": "Inspiring", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "4", 
+      "trait_type": 4, 
+      "uses_simple_calculation": true
+    }
+  },
+  {
+    "pk": 47, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": null, 
+      "name": "Mentor", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 4, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 48, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": null, 
+      "name": "Resources", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 4, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 49, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": null, 
+      "name": "Retainer", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 4, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 50, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": null, 
+      "name": "Status", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 4, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 51, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 3, 
+      "use": null, 
+      "name": "Striking Looks", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "2,4", 
+      "trait_type": 4, 
+      "uses_simple_calculation": false
+    }
+  },
+  {
+    "pk": 52, 
+    "model": "game_manager.trait", 
+    "fields": {
+      "category": 1, 
+      "use": null, 
+      "name": "Academics", 
+      "custom_xp_per_dot": null, 
+      "specific_dots": "", 
+      "trait_type": 2, 
+      "uses_simple_calculation": false
+    }
   }
 ]

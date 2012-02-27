@@ -43,50 +43,7 @@ class Game(models.Model):
   class Meta:
     abstract = True
     
-  # def setup_merits(self):
-    # self.merits = [
-      # Trait(name = "Common Sense", trait_type = self.trait_types[3], category = Trait.category_options.mental, uses_simple_calculation = true, specific_dots = [1]),
-      # Trait(name = "Danger Sense", trait_type = self.trait_types[3], category = Trait.category_options.mental, uses_simple_calculation = true, specific_dots = [2]),
-      # Trait(name = "Eidetic Memory", trait_type = self.trait_types[3], category = Trait.category_options.mental, uses_simple_calculation = true, specific_dots = [2]),
-      # Trait(name = "Encyclopedic Knowledge", trait_type = self.trait_types[3], category = Trait.category_options.mental, uses_simple_calculation = true, specific_dots = [4]),
-      # Trait(name = "Holistic Awareness", trait_type = self.trait_types[3], category = Trait.category_options.mental, uses_simple_calculation = true, specific_dots = [3]),
-      # Trait(name = "Language", trait_type = self.trait_types[3], category = Trait.category_options.mental, uses_simple_calculation = true, specific_dots = [1]),
-      # Trait(name = "Meditative Mind", trait_type = self.trait_types[3], category = Trait.category_options.mental, uses_simple_calculation = true, specific_dots = [1]),
-      # Trait(name = "Unseen Sense", trait_type = self.trait_types[3], category = Trait.category_options.mental, uses_simple_calculation = true, specific_dots = [3]),
-      # Trait(name = "Ambidextrous", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = true, specific_dots = [3]),
-      # Trait(name = "Brawling Dodge", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = true, specific_dots = [1]),
-      # Trait(name = "Direction Sense", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = true, specific_dots = [1]),
-      # Trait(name = "Disarm", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = true, specific_dots = [2]),
-      # Trait(name = "Fast Reflexes", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = true, specific_dots = [1, 2]),
-      # Trait(name = "Fighting Finesse", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = true, specific_dots = [2]),
-      # Trait(name = "Fighting Style: Boxing", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = false),
-      # Trait(name = "Fighting Style: Kung Fu", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = false),
-      # Trait(name = "Fighting Style: Two Weapons", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = false),
-      # Trait(name = "Fleet of Foot", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = false, specific_dots = [1, 2, 3]),
-      # Trait(name = "Giant", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = true, specific_dots = [4]),
-      # Trait(name = "Gunslinger", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = true, specific_dots = [3]),
-      # Trait(name = "Iron Stamina", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = false, specific_dots = [1, 2, 3]),
-      # Trait(name = "Iron Stomach", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = true, specific_dots = [2]),
-      # Trait(name = "Natural Immunity", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = true, specific_dots = [1]),
-      # Trait(name = "Quick Draw", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = true, specific_dots = [1]),
-      # Trait(name = "Quick Healer", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = true, specific_dots = [4]),
-      # Trait(name = "Strong Back", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = true, specific_dots = [1]),
-      # Trait(name = "Strong Lungs", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = true, specific_dots = [3]),
-      # Trait(name = "Stunt Driver", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = true, specific_dots = [3]),
-      # Trait(name = "Toxin Resistance", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = true, specific_dots = [2]),
-      # Trait(name = "Weaponry Dodge", trait_type = self.trait_types[3], category = Trait.category_options.physical, uses_simple_calculation = true, specific_dots = [1]),
-      # Trait(name = "Allies", trait_type = self.trait_types[3], category = Trait.category_options.social, uses_simple_calculation = false),
-      # Trait(name = "Barfly", trait_type = self.trait_types[3], category = Trait.category_options.social, uses_simple_calculation = true, specific_dots = [1]),
-      # Trait(name = "Contacts", trait_type = self.trait_types[3], category = Trait.category_options.social, uses_simple_calculation = false),
-      # Trait(name = "Fame", trait_type = self.trait_types[3], category = Trait.category_options.social, uses_simple_calculation = false, specific_dots = [1, 2, 3]),
-      # Trait(name = "Inspiring", trait_type = self.trait_types[3], category = Trait.category_options.social, uses_simple_calculation = true, specific_dots = [4]),
-      # Trait(name = "Mentor", trait_type = self.trait_types[3], category = Trait.category_options.social, uses_simple_calculation = false),
-      # Trait(name = "Resources", trait_type = self.trait_types[3], category = Trait.category_options.social, uses_simple_calculation = false),
-      # Trait(name = "Retainer", trait_type = self.trait_types[3], category = Trait.category_options.social, uses_simple_calculation = false),
-      # Trait(name = "Status", trait_type = self.trait_types[3], category = Trait.category_options.social, uses_simple_calculation = false),
-      # Trait(name = "Striking Looks", trait_type = self.trait_types[3], category = Trait.category_options.social, uses_simple_calculation = false, specific_dots = [2, 4])
-    # ]
-  
+ 
   # def setup_skills(self):  
     # this.Skills = [
       # Trait(name = "Academics", trait_type = self.trait_types[1], category = Trait.category_options.mental, uses_simple_calculation = false),
