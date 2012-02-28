@@ -29,28 +29,88 @@ class SheetCreation(TestCase):
 class SheetEditing(TestCase):
   def setUp(self):
     self.user = User.objects.create_user('testuser', 'testuser@thecharonsheet.com', password='dummy')
-    self.sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     self.c = Client()
     self.c.login(username=self.user.username, password='dummy')
     
   def test_attribute_fields_are_on_form(self):
     """Case 309"""
-    response = self.c.get(self.sheet.get_absolute_url())
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    response = self.c.get(sheet.get_absolute_url())
     self.assertContains(response, 'name="attribute-0-level"', count=1)
     self.assertContains(response, 'name="attribute-8-level"', count=1)
     
   def test_skill_fields_are_on_form(self):
     """Case 310"""
-    response = self.c.get(self.sheet.get_absolute_url())
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    response = self.c.get(sheet.get_absolute_url())
     self.assertContains(response, 'name="skill-0-level"', count=1)
     self.assertContains(response, 'name="skill-20-level"', count=1)
     
   def test_attribute_fields_are_filled(self):
     """Case 309"""
-    response = self.c.get(self.sheet.get_absolute_url())
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    response = self.c.get(sheet.get_absolute_url())
     self.assertContains(response, '<input type="text" name="attribute-0-level" value="1" id="id_attribute-0-level" />')
   
   def test_skill_fields_are_filled(self):
     """Case 310"""
-    response = self.c.get(self.sheet.get_absolute_url())
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    response = self.c.get(sheet.get_absolute_url())
     self.assertContains(response, '<input type="text" name="skill-0-level" value="0" id="id_skill-0-level" />')
+    
+  def test_posting_edit_redirects_to_list(self):
+    """Case 311"""
+    post_data = {
+      'name':u'Unhappy SE',
+      'concept':u'Sad clown',
+      'attribute-TOTAL_FORMS':u'2',
+      'attribute-MAX_NUM_FORMS':u'',
+      'attribute-INITIAL_FORMS':u'2',
+      'attribute-0-level':u'2',
+      'attribute-0-character':u'1',
+      'attribute-0-id':u'1',
+      'attribute-1-level':u'1',
+      'attribute-1-character':u'1',
+      'attribute-1-id':u'2',
+      'skill-TOTAL_FORMS':u'2',
+      'skill-MAX_NUM_FORMS':u'',
+      'skill-INITIAL_FORMS':u'2',
+      'skill-0-level':u'2',
+      'skill-0-character':u'1',
+      'skill-0-id':u'1',
+      'skill-1-level':u'1',
+      'skill-1-character':u'1',
+      'skill-1-id':u'2'
+    }
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    response = self.c.post(sheet.get_absolute_url(), post_data, follow=True)
+    self.assertRedirects(response, '/character-manager/list/')
+    
+  def test_attributes_can_be_changed(self):
+    post_data = {
+      'name':u'Unhappy SE',
+      'concept':u'Sad clown',
+      'attribute-TOTAL_FORMS':u'2',
+      'attribute-MAX_NUM_FORMS':u'',
+      'attribute-INITIAL_FORMS':u'2',
+      'attribute-0-level':u'2',
+      'attribute-0-character':u'1',
+      'attribute-0-id':u'1',
+      'attribute-1-level':u'1',
+      'attribute-1-character':u'1',
+      'attribute-1-id':u'2',
+      'skill-TOTAL_FORMS':u'2',
+      'skill-MAX_NUM_FORMS':u'',
+      'skill-INITIAL_FORMS':u'2',
+      'skill-0-level':u'2',
+      'skill-0-character':u'1',
+      'skill-0-id':u'1',
+      'skill-1-level':u'1',
+      'skill-1-character':u'1',
+      'skill-1-id':u'2'
+    }
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    response = self.c.post(sheet.get_absolute_url(), post_data, follow=True)
+    self.assertEqual(GeistCharacterSheet.objects.get(pk=1).concept, u'Sad clown')
+    self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.get(pk=1).level, 2)
+    

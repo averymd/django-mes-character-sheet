@@ -22,9 +22,20 @@ def character_sheet(request, sheet_id=None):
     if sheet_id is not None:
       try:
         charsheet = GeistCharacterSheet.objects.get(pk=sheet_id, user=request.user)
-        sheet_form = GeistCharacterSheetForm(instance=charsheet)
-        attribute_trait_formset = setup_attribute_form(charsheet)
-        skill_trait_formset = setup_skill_form(charsheet)
+        if request.method == 'POST':
+          sheet_form = GeistCharacterSheetForm(request.POST, instance=charsheet)          
+          attribute_trait_formset = setup_attribute_form(charsheet, post=request.POST)
+          skill_trait_formset = setup_skill_form(charsheet, post=request.POST)
+          
+          if sheet_form.is_valid() and attribute_trait_formset.is_valid() and skill_trait_formset.is_valid():
+            sheet_form.save()
+            attribute_trait_formset.save()
+            skill_trait_formset.save()
+            return redirect('/character-manager/list/')
+        else:
+          sheet_form = GeistCharacterSheetForm(instance=charsheet)          
+          attribute_trait_formset = setup_attribute_form(charsheet)
+          skill_trait_formset = setup_skill_form(charsheet)
         
         return render_to_response('character_manager/character_sheet.html', { 'sheet_form' : sheet_form, 'attribute_trait_formset' : attribute_trait_formset, 'skill_trait_formset' : skill_trait_formset, 'page_title' : 'New Character Sheet', 'page_name' : 'charsheetform' }, context_instance=RequestContext(request))
       except GeistCharacterSheet.DoesNotExist:
@@ -42,10 +53,16 @@ def character_sheet(request, sheet_id=None):
         sheet_form = GeistCharacterSheetForm()        
         return render_to_response('character_manager/character_sheet.html', { 'sheet_form' : sheet_form, 'page_title' : 'New Character Sheet', 'page_name' : 'charsheetform' }, context_instance=RequestContext(request))
         
-def setup_attribute_form(charsheet):
+def setup_attribute_form(charsheet, post=None):
   AttributeFormSet = inlineformset_factory(GeistCharacterSheet, ChosenTrait, form=ChosenAttributeSkillForm, can_delete=False, extra=0)
-  return AttributeFormSet(instance=charsheet, queryset=ChosenTrait.objects.filter(trait__trait_type__name='Attribute'), prefix='attribute')
+  if post:
+    return AttributeFormSet(post, instance=charsheet, queryset=ChosenTrait.objects.filter(trait__trait_type__name='Attribute'), prefix='attribute')
+  else:
+    return AttributeFormSet(instance=charsheet, queryset=ChosenTrait.objects.filter(trait__trait_type__name='Attribute'), prefix='attribute')
   
-def setup_skill_form(charsheet):
+def setup_skill_form(charsheet, post=None):
   SkillFormSet = inlineformset_factory(GeistCharacterSheet, ChosenTrait, form=ChosenSkillForm, can_delete=False, extra=0)
-  return SkillFormSet(instance=charsheet, queryset=ChosenTrait.objects.filter(trait__trait_type__name='Skill'), prefix='skill')
+  if post:
+    return SkillFormSet(post, instance=charsheet, queryset=ChosenTrait.objects.filter(trait__trait_type__name='Skill'), prefix='skill')
+  else:
+    return SkillFormSet(instance=charsheet, queryset=ChosenTrait.objects.filter(trait__trait_type__name='Skill'), prefix='skill')
