@@ -29,7 +29,7 @@ def character_sheet(request, sheet_id=None):
         return render_to_response('character_manager/character_sheet.html', { 'sheet_form' : sheet_form, 'attribute_trait_formset' : attribute_trait_formset, 'page_title' : 'New Character Sheet', 'page_name' : 'charsheetform' }, context_instance=RequestContext(request))
       except GeistCharacterSheet.DoesNotExist:
         messages.error(request, 'That character sheet doesn\'t exist.')
-        redirect(list)
+        return redirect(list)
     else:
       if request.method == 'POST':
         sheet_form = GeistCharacterSheetForm(request.POST)
@@ -37,12 +37,10 @@ def character_sheet(request, sheet_id=None):
           sheet = sheet_form.save(commit=False)
           sheet.user = request.user
           sheet.save()
-          attribute_trait_formset = setup_attribute_form(sheet)
-          return render_to_response('character_manager/character_sheet.html', { 'sheet_form' : sheet_form, 'attribute_trait_formset' : attribute_trait_formset, 'page_title' : 'New Character Sheet', 'page_name' : 'charsheetform' }, context_instance=RequestContext(request))
+          return redirect(sheet.get_absolute_url())
       else:
-        sheet_form = GeistCharacterSheetForm()
-  
-      return render_to_response('character_manager/character_sheet.html', { 'sheet_form' : sheet_form, 'page_title' : 'New Character Sheet', 'page_name' : 'charsheetform' }, context_instance=RequestContext(request))
+        sheet_form = GeistCharacterSheetForm()        
+        return render_to_response('character_manager/character_sheet.html', { 'sheet_form' : sheet_form, 'page_title' : 'New Character Sheet', 'page_name' : 'charsheetform' }, context_instance=RequestContext(request))
       
 def setup_attribute_form(charsheet):
   AttributeFormSet = inlineformset_factory(GeistCharacterSheet, ChosenTrait, form=ChosenTraitForm, can_delete=False)

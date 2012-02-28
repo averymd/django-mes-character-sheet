@@ -18,8 +18,8 @@ class CharacterSheet(models.Model):
   concept = models.CharField(max_length=400, blank=True)
   age = models.CharField(max_length=100, blank=True)
   dob = models.CharField(max_length=100, blank=True)
-  virtue = models.IntegerField(choices=Game.virtue_options, blank=True)
-  vice = models.IntegerField(choices=Game.vice_options, blank=True)
+  virtue = models.IntegerField(choices=Game.virtue_options, blank=True, null=True)
+  vice = models.IntegerField(choices=Game.vice_options, blank=True, null=True)
   xp_log = models.OneToOneField(XpLog) 
   user = models.ForeignKey(User, editable=False)
   
@@ -32,7 +32,6 @@ class CharacterSheet(models.Model):
     except XpLog.DoesNotExist:
       self.xp_log = XpLog.objects.create()
     super(CharacterSheet, self).save(*args, **kwargs) # Call the "real" save() method.
-    
   
   def __unicode__(self):
     return u'%s' % (self.name)
@@ -43,6 +42,20 @@ class CharacterSheet(models.Model):
 class GeistCharacterSheet(CharacterSheet):
   faction = models.ForeignKey(Faction, blank=True, null=True)
   subrace = models.ForeignKey(Subrace, blank=True, null=True)
+  
+  @models.permalink
+  def get_absolute_url(self):
+    return ('character_sheet_edit', (), {'sheet_id':str(self.id)})
+  
+  def save(self, *args, **kwargs):
+    super(GeistCharacterSheet, self).save(*args, **kwargs) # Call the "real" save() method.
+    if not self.chosentrait_set.filter(trait__trait_type__name='Attribute').exists():
+      for attribute in Trait.objects.filter(trait_type__name='Attribute'):
+        self.chosentrait_set.create(trait=attribute, level=1)
+        
+    if not self.chosentrait_set.filter(trait__trait_type__name='Skill').exists():
+      for attribute in Trait.objects.filter(trait_type__name='Skill'):
+        self.chosentrait_set.create(trait=attribute, level=0)
   
 class ChosenTrait(models.Model):
   trait = models.ForeignKey(Trait)

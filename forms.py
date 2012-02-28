@@ -4,7 +4,7 @@ from game_manager.models import Geist, Faction, Subrace
 
 class GeistCharacterSheetForm(ModelForm):
   
-  dob = CharField(label='Date of Birth')
+  dob = CharField(label='Date of Birth', required=False)
   
   def __init__(self, *args, **kwargs):
     super(GeistCharacterSheetForm, self).__init__(*args, **kwargs)
