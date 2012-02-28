@@ -4,40 +4,51 @@ from django.contrib.auth.models import User
 from game_manager.models import Trait, Game, Geist, Faction, Subrace
     
 class XpLog(models.Model):
-  category_options = (('Game', 1), ('Attribute', 2), ('Merit', 3), ('Downtime', 4))
+  category_options = ((1, 'Game'), (2, 'Attribute'), (3, 'Merit'), (4, 'Downtime'))
 
 class XpEntry(models.Model):
   xp_change = models.IntegerField()
   date = models.DateField(auto_now_add=True)
   category = models.CharField(choices=XpLog.category_options, max_length=100)
   details = models.TextField()
-  xp_log = models.ForeignKey(XpLog)
+  xp_log = models.ForeignKey(XpLog, editable=False)
   
 class CharacterSheet(models.Model):
-  name = models.CharField(max_length=100)
-  concept = models.CharField(max_length=400)
-  age = models.CharField(max_length=100)
-  dob = models.CharField(max_length=100)
-  virtue = models.IntegerField(choices=Game.virtue_options)
-  vice = models.IntegerField(choices=Game.vice_options)
-  xp_log = models.ForeignKey(XpLog) 
-  user = models.ForeignKey(User)
+  name = models.CharField(max_length=100, default='New Sin-Eater')
+  concept = models.CharField(max_length=400, blank=True)
+  age = models.CharField(max_length=100, blank=True)
+  dob = models.CharField(max_length=100, blank=True)
+  virtue = models.IntegerField(choices=Game.virtue_options, blank=True)
+  vice = models.IntegerField(choices=Game.vice_options, blank=True)
+  xp_log = models.OneToOneField(XpLog) 
+  user = models.ForeignKey(User, editable=False)
   
   created_at = models.DateTimeField(default=datetime.now, editable=False)
   updated_at = models.DateTimeField(auto_now=True)
+  
+  def save(self, *args, **kwargs):
+    try:
+      self.xp_log
+    except XpLog.DoesNotExist:
+      self.xp_log = XpLog.objects.create()
+    super(CharacterSheet, self).save(*args, **kwargs) # Call the "real" save() method.
+    
+  
+  def __unicode__(self):
+    return u'%s' % (self.name)
 
   class Meta:
     abstract = True
     
 class GeistCharacterSheet(CharacterSheet):
-  faction = models.ForeignKey(Faction)
-  subrace = models.ForeignKey(Subrace)
+  faction = models.ForeignKey(Faction, blank=True, null=True)
+  subrace = models.ForeignKey(Subrace, blank=True, null=True)
   
 class ChosenTrait(models.Model):
   trait = models.ForeignKey(Trait)
   level = models.IntegerField()
-  character = models.ForeignKey(GeistCharacterSheet)
-  specializations = models.CharField(max_length=300)
+  character = models.ForeignKey(GeistCharacterSheet, editable=False)
+  specializations = models.CharField(max_length=300, blank=True)
   created_at = models.DateTimeField(default=datetime.now, editable=False)
   updated_at = models.DateTimeField(auto_now=True)
   
