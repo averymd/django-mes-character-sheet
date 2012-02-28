@@ -22,6 +22,9 @@ class Trait(models.Model):
   def __unicode__(self):
     return self.name
     
+  class Meta:
+    ordering = ['trait_type', 'category' , 'use' , 'name']
+    
 class Game(models.Model):  
   name = models.CharField(max_length=200)
   subrace_name = models.CharField(max_length=200)
