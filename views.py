@@ -5,7 +5,7 @@ from django.forms.models import modelformset_factory, inlineformset_factory
 from django.template import RequestContext
 from models import GeistCharacterSheet, ChosenTrait
 from game_manager.models import Trait
-from forms import GeistCharacterSheetForm, ChosenTraitForm
+from forms import GeistCharacterSheetForm, ChosenAttributeSkillForm, ChosenSkillForm
 from django.conf import settings
 from django.contrib import messages
 
@@ -17,7 +17,6 @@ def list(request):
     return render_to_response('character_manager/list.html', {'character_sheets' : charsheets, 'page_title' : 'Character Sheets', 'page_name' : 'charsheets'},
       context_instance=RequestContext(request))
 
-
 def character_sheet(request, sheet_id=None):
   if request.user.is_authenticated():
     if sheet_id is not None:
@@ -25,8 +24,9 @@ def character_sheet(request, sheet_id=None):
         charsheet = GeistCharacterSheet.objects.get(pk=sheet_id, user=request.user)
         sheet_form = GeistCharacterSheetForm(instance=charsheet)
         attribute_trait_formset = setup_attribute_form(charsheet)
+        skill_trait_formset = setup_skill_form(charsheet)
         
-        return render_to_response('character_manager/character_sheet.html', { 'sheet_form' : sheet_form, 'attribute_trait_formset' : attribute_trait_formset, 'page_title' : 'New Character Sheet', 'page_name' : 'charsheetform' }, context_instance=RequestContext(request))
+        return render_to_response('character_manager/character_sheet.html', { 'sheet_form' : sheet_form, 'attribute_trait_formset' : attribute_trait_formset, 'skill_trait_formset' : skill_trait_formset, 'page_title' : 'New Character Sheet', 'page_name' : 'charsheetform' }, context_instance=RequestContext(request))
       except GeistCharacterSheet.DoesNotExist:
         messages.error(request, 'That character sheet doesn\'t exist.')
         return redirect(list)
@@ -41,7 +41,11 @@ def character_sheet(request, sheet_id=None):
       else:
         sheet_form = GeistCharacterSheetForm()        
         return render_to_response('character_manager/character_sheet.html', { 'sheet_form' : sheet_form, 'page_title' : 'New Character Sheet', 'page_name' : 'charsheetform' }, context_instance=RequestContext(request))
-      
+        
 def setup_attribute_form(charsheet):
-  AttributeFormSet = inlineformset_factory(GeistCharacterSheet, ChosenTrait, form=ChosenTraitForm, can_delete=False)
-  return AttributeFormSet(instance=charsheet, queryset=ChosenTrait.objects.filter(trait__trait_type__name='Attribute'))
+  AttributeFormSet = inlineformset_factory(GeistCharacterSheet, ChosenTrait, form=ChosenAttributeSkillForm, can_delete=False, extra=0)
+  return AttributeFormSet(instance=charsheet, queryset=ChosenTrait.objects.filter(trait__trait_type__name='Attribute'), prefix='attribute')
+  
+def setup_skill_form(charsheet):
+  SkillFormSet = inlineformset_factory(GeistCharacterSheet, ChosenTrait, form=ChosenSkillForm, can_delete=False, extra=0)
+  return SkillFormSet(instance=charsheet, queryset=ChosenTrait.objects.filter(trait__trait_type__name='Skill'), prefix='skill')
