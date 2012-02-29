@@ -1,6 +1,6 @@
-from django.forms import ModelForm, HiddenInput, IntegerField, CharField, ChoiceField
+from django.forms import ModelForm, HiddenInput, IntegerField, CharField, ChoiceField, Select, ModelChoiceField
 from character_manager.models import GeistCharacterSheet, ChosenTrait, XpLog, XpEntry
-from game_manager.models import Geist, Faction, Subrace
+from game_manager.models import Geist, Trait, Faction, Subrace
 
 class GeistCharacterSheetForm(ModelForm):  
   dob = CharField(label='Date of Birth', required=False)
@@ -28,7 +28,17 @@ class ChosenSkillForm(ChosenAttributeSkillForm):
   class Meta(ChosenAttributeSkillForm.Meta):
     exclude = ('trait')
     
+
+class ChosenMeritForm(ModelForm):   
+  def __init__(self, *args, **kwargs):
+    super(ChosenMeritForm, self).__init__(*args, **kwargs)
+    self.fields['specializations'].label = u'Details'
+    self.fields['trait'] = ModelChoiceField(required=True, queryset=Trait.objects.filter(trait_type__name='Merit'))
+    self.fields['trait'].label = u'Merit'
     
+  class Meta:
+    model = ChosenTrait
+        
 class XpLogForm(ModelForm):
   class Meta:
     model = XpLog
