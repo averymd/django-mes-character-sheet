@@ -121,3 +121,5 @@ class SheetEditing(TestCase):
     response = self.c.post(sheet.get_absolute_url(), self.post_data, follow=True)
     self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.all().filter(trait__name='Common Sense')[0].level, 2)
     self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.all().filter(trait__name='Common Sense')[0].specializations, u'Sometimes')
+    
+    
