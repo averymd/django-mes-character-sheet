@@ -64,7 +64,7 @@ def setup_attribute_form(charsheet, post=None):
     return AttributeFormSet(instance=charsheet, queryset=ChosenTrait.objects.filter(trait__trait_type__name='Attribute'), prefix='attribute')
   
 def setup_merit_form(charsheet, post=None):
-  MeritFormSet = inlineformset_factory(GeistCharacterSheet, ChosenTrait, form=ChosenMeritForm, extra=3)
+  MeritFormSet = inlineformset_factory(GeistCharacterSheet, ChosenTrait, form=ChosenMeritForm, extra=1)
   if post:
     return MeritFormSet(post, instance=charsheet, queryset=ChosenTrait.objects.filter(trait__trait_type__name='Merit'), prefix='merit')
   else:

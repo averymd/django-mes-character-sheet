@@ -59,11 +59,28 @@ class GeistCharacterSheet(CharacterSheet):
   
 class ChosenTrait(models.Model):
   trait = models.ForeignKey(Trait)
-  level = models.IntegerField()
+  level = models.IntegerField(default=0, blank=True, null=True)
   character = models.ForeignKey(GeistCharacterSheet, editable=False)
   specializations = models.CharField(max_length=300, blank=True)
   created_at = models.DateTimeField(default=datetime.now, editable=False)
   updated_at = models.DateTimeField(auto_now=True)
   
+  LEVEL_CHOICES = ((1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5'))
+  SKILL_LEVEL_CHOICES = ((0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5'))
+  
+  def available_dots(self):
+    try:
+      if self.trait.specific_dots != '':
+        level_choices = tuple((i, str(i)) for i in self.trait.specific_dots.split(','))
+      else:
+        if self.trait.trait_type.name == 'Skill':
+          level_choices = ChosenTrait.SKILL_LEVEL_CHOICES
+        else:
+          level_choices = ChosenTrait.LEVEL_CHOICES
+    except Trait.DoesNotExist:
+      level_choices = ChosenTrait.LEVEL_CHOICES
+    
+    return level_choices
+      
   def change_level(self):
     return ''

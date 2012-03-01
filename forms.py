@@ -1,4 +1,4 @@
-from django.forms import ModelForm, HiddenInput, IntegerField, CharField, ChoiceField, Select, ModelChoiceField
+from django.forms import ModelForm, HiddenInput, IntegerField, CharField, ChoiceField, Select, ModelChoiceField, RadioSelect
 from character_manager.models import GeistCharacterSheet, ChosenTrait, XpLog, XpEntry
 from game_manager.models import Geist, Trait, Faction, Subrace
 
@@ -18,16 +18,19 @@ class GeistCharacterSheetForm(ModelForm):
 class ChosenAttributeSkillForm(ModelForm):   
   def __init__(self, *args, **kwargs):
     super(ChosenAttributeSkillForm, self).__init__(*args, **kwargs)
-    self.fields['level'].label = u'%s' % (self.instance.trait.name)
+    self.fields['level'] = ChoiceField(label=u'%s' % (self.instance.trait.name), required=True, choices=self.instance.available_dots(), widget=RadioSelect())
     
   class Meta:
     model = ChosenTrait
     exclude = ('trait', 'specializations')
     
 class ChosenSkillForm(ChosenAttributeSkillForm):
-  class Meta(ChosenAttributeSkillForm.Meta):
-    exclude = ('trait')
+  def __init__(self, *args, **kwargs):
+    super(ChosenAttributeSkillForm, self).__init__(*args, **kwargs)
+    self.fields['level'] = ChoiceField(label=u'%s' % (self.instance.trait.name), required=False, choices=self.instance.available_dots(), widget=RadioSelect())
     
+  class Meta(ChosenAttributeSkillForm.Meta):
+    exclude = ('trait')    
 
 class ChosenMeritForm(ModelForm):   
   def __init__(self, *args, **kwargs):
@@ -35,6 +38,12 @@ class ChosenMeritForm(ModelForm):
     self.fields['specializations'].label = u'Details'
     self.fields['trait'] = ModelChoiceField(required=True, queryset=Trait.objects.filter(trait_type__name='Merit'))
     self.fields['trait'].label = u'Merit'
+    try:
+      self.fields['level'] = ChoiceField(choices=self.instance.available_dots(), 
+        widget=RadioSelect())
+    except Trait.DoesNotExist:
+      self.fields['level'] = ChoiceField(choices=ChosenTrait.LEVEL_CHOICES(), 
+        widget=RadioSelect())
     
   class Meta:
     model = ChosenTrait

@@ -55,47 +55,40 @@ class SheetEditing(TestCase):
       'skill-1-id':u'11',
       'merit-TOTAL_FORMS':u'1',
       'merit-MAX_NUM_FORMS':u'',
-      'merit-INITIAL_FORMS':u'1',
+      'merit-INITIAL_FORMS':u'0',
+      'merit-0-id':'',
       'merit-0-level':u'2',
       'merit-0-character':u'1',
       'merit-0-trait':u'11',
-      'merit-0-specializations':u'Sometimes',
-      'merit-0-id':'',
+      'merit-0-specializations':u'Sometimes'
     }
     
   def test_attribute_fields_are_on_form(self):
     """Case 309"""
     sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     response = self.c.get(sheet.get_absolute_url())
-    self.assertContains(response, 'name="attribute-0-level"', count=1)
-    self.assertContains(response, 'name="attribute-8-level"', count=1)
+    self.assertContains(response, 'name="attribute-0-level"', count=5)
+    self.assertContains(response, 'name="attribute-8-level"', count=5)
     
   def test_skill_fields_are_on_form(self):
     """Case 310"""
     sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     response = self.c.get(sheet.get_absolute_url())
-    self.assertContains(response, 'name="skill-0-level"', count=1)
-    self.assertContains(response, 'name="skill-20-level"', count=1)
+    self.assertContains(response, 'name="skill-0-level"', count=6)
+    self.assertContains(response, 'name="skill-20-level"', count=6)
     
   def test_merit_fields_are_on_form(self):
     """Case 311"""
     sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     response = self.c.get(sheet.get_absolute_url())
-    self.assertContains(response, 'name="merit-0-level"', count=1)
-    self.assertContains(response, 'name="merit-2-level"', count=1)
+    self.assertContains(response, 'name="merit-0-level"', count=5)
     
   def test_attribute_fields_are_filled(self):
     """Case 309"""
     sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     response = self.c.get(sheet.get_absolute_url())
-    self.assertContains(response, '<input type="text" name="attribute-0-level" value="1" id="id_attribute-0-level" />')
-  
-  def test_skill_fields_are_filled(self):
-    """Case 310"""
-    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
-    response = self.c.get(sheet.get_absolute_url())
-    self.assertContains(response, '<input type="text" name="skill-0-level" value="0" id="id_skill-0-level" />')
-    
+    self.assertContains(response, 'id="id_attribute-0-level_0" value="1"')
+   
   def test_posting_edit_redirects_to_list(self):
     """Case 312"""
     sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
@@ -117,10 +110,10 @@ class SheetEditing(TestCase):
   def test_skills_can_be_changed(self):
     """Case 312"""
     sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
-    response = self.c.post(sheet.get_absolute_url(), self.post_data, follow=True)
-    self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.all().filter(trait__name='Academics')[0].level, 1)
+    response = self.c.post(sheet.get_absolute_url(), self.post_data)
+    self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.all().filter(trait__name='Academics')[0].level, 2)
     self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.all().filter(trait__name='Academics')[0].specializations, u'Research')
-    self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.all().filter(trait__name='Investigations')[0].level, 1)
+    self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.all().filter(trait__name='Investigation')[0].level, 1)
     
   def test_merits_can_be_added(self):
     """Case 312"""
@@ -128,3 +121,5 @@ class SheetEditing(TestCase):
     response = self.c.post(sheet.get_absolute_url(), self.post_data, follow=True)
     self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.all().filter(trait__name='Common Sense')[0].level, 2)
     self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.all().filter(trait__name='Common Sense')[0].specializations, u'Sometimes')
+    
+    
