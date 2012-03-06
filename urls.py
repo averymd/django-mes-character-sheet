@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from views import character_sheet, list
+from views import character_sheet, list, merit_dots
 
 urlpatterns = patterns(
   '',
@@ -16,5 +16,9 @@ urlpatterns = patterns(
     name = 'character_sheet_edit'
   ),
   (r'^logout/$', 'django.contrib.auth.views.logout'),
-  (r'', include('django_openid_auth.urls')),  
+  (r'', include('django_openid_auth.urls')),
+  url(r'merit\-dots/$', 
+    view = merit_dots,
+    name = 'merit_dots'
+  ),
 )

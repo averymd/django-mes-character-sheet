@@ -122,4 +122,20 @@ class SheetEditing(TestCase):
     self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.all().filter(trait__name='Common Sense')[0].level, 2)
     self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.all().filter(trait__name='Common Sense')[0].specializations, u'Sometimes')
     
+  def test_merit_dots_updated_when_single_dot_only_merit_selected(self):
+    """Case 313"""
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    merit_selection = {
+      'merit-id': u'11'
+    }
+    response = self.c.post('/character-manager/merit-dots/', merit_selection, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    self.assertContains(response, '{"dots": [1]}')
     
+  def test_merit_dots_updated_when_multi_dot_merit_selected(self):
+    """Case 313"""
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    merit_selection = {
+      'merit-id': u'26'
+    }
+    response = self.c.post('/character-manager/merit-dots/', merit_selection, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    self.assertContains(response, '{"dots": [1, 2, 3, 4, 5]}')

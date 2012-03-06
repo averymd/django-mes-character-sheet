@@ -18,7 +18,7 @@ class GeistCharacterSheetForm(ModelForm):
 class ChosenAttributeSkillForm(ModelForm):   
   def __init__(self, *args, **kwargs):
     super(ChosenAttributeSkillForm, self).__init__(*args, **kwargs)
-    self.fields['level'] = ChoiceField(label=u'%s' % (self.instance.trait.name), required=True, choices=self.instance.available_dots(), widget=RadioSelect())
+    self.fields['level'] = ChoiceField(label=u'%s' % (self.instance.trait.name), required=True, choices=self.instance.trait.available_dots(), widget=RadioSelect())
     
   class Meta:
     model = ChosenTrait
@@ -27,7 +27,7 @@ class ChosenAttributeSkillForm(ModelForm):
 class ChosenSkillForm(ChosenAttributeSkillForm):
   def __init__(self, *args, **kwargs):
     super(ChosenAttributeSkillForm, self).__init__(*args, **kwargs)
-    self.fields['level'] = ChoiceField(label=u'%s' % (self.instance.trait.name), required=False, choices=self.instance.available_dots(), widget=RadioSelect())
+    self.fields['level'] = ChoiceField(label=u'%s' % (self.instance.trait.name), required=False, choices=self.instance.trait.available_dots(), widget=RadioSelect())
     
   class Meta(ChosenAttributeSkillForm.Meta):
     exclude = ('trait')    
@@ -39,10 +39,10 @@ class ChosenMeritForm(ModelForm):
     self.fields['trait'] = ModelChoiceField(required=True, queryset=Trait.objects.filter(trait_type__name='Merit'))
     self.fields['trait'].label = u'Merit'
     try:
-      self.fields['level'] = ChoiceField(choices=self.instance.available_dots(), 
+      self.fields['level'] = ChoiceField(choices=self.instance.trait.available_dots(), 
         widget=RadioSelect())
     except Trait.DoesNotExist:
-      self.fields['level'] = ChoiceField(choices=ChosenTrait.LEVEL_CHOICES(), 
+      self.fields['level'] = ChoiceField(choices=Trait.LEVEL_CHOICES, 
         widget=RadioSelect())
     
   class Meta:

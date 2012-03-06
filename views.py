@@ -8,7 +8,7 @@ from game_manager.models import Trait
 from forms import GeistCharacterSheetForm, ChosenAttributeSkillForm, ChosenSkillForm, ChosenMeritForm
 from django.conf import settings
 from django.contrib import messages
-
+import json
 
 def list(request):
   if request.user.is_authenticated():
@@ -55,6 +55,16 @@ def character_sheet(request, sheet_id=None):
       else:
         sheet_form = GeistCharacterSheetForm()        
         return render_to_response('character_manager/character_sheet.html', { 'sheet_form' : sheet_form, 'page_title' : 'New Character Sheet', 'page_name' : 'charsheetform' }, context_instance=RequestContext(request))
+
+def merit_dots(request):
+  if request.user.is_authenticated() and request.method == 'POST' and request.is_ajax():
+    if request.POST['merit-id'].isdigit():
+      merit = Trait.objects.get(pk=int(request.POST['merit-id']))
+      values, dots = zip(*merit.available_dots())
+      json_dots = json.dumps({ 'dots' : values })
+      return HttpResponse(json_dots, mimetype='text/json')
+  
+  return ''
         
 def setup_attribute_form(charsheet, post=None):
   AttributeFormSet = inlineformset_factory(GeistCharacterSheet, ChosenTrait, form=ChosenAttributeSkillForm, can_delete=False, extra=0)
