@@ -8,8 +8,8 @@ class GeistCharacterSheetForm(ModelForm):
   def __init__(self, *args, **kwargs):
     super(GeistCharacterSheetForm, self).__init__(*args, **kwargs)
     game = Geist.objects.get(pk=1)
-    faction = ChoiceField(label='%s' % (game.faction_name), choices=[(f.id, u'%s' % (f.name)) for f in game.factions.all()])
-    subrace = ChoiceField(label='%s' % (game.subrace_name), choices=[(s.id, u'%s' % (s.name)) for s in game.subraces.all()])
+    self.fields['faction'].label = '%s' % (game.faction_name)
+    self.fields['subrace'].label='%s' % (game.subrace_name)
   
   class Meta:
     model = GeistCharacterSheet
