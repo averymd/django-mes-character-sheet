@@ -139,3 +139,21 @@ class SheetEditing(TestCase):
     }
     response = self.c.post('/character-manager/merit-dots/', merit_selection, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
     self.assertContains(response, '{"dots": [1, 2, 3, 4, 5]}')
+  
+  def test_merit_dot_update_fail_when_item_not_a_merit(self):
+    """Case 313"""
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    # An attribute
+    merit_selection = {
+      'merit-id': u'5'
+    }
+    self.assertRaises(ValueError, self.c.post, '/character-manager/merit-dots/', merit_selection, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    
+  def test_merit_dot_update_fail_when_item_not_a_number(self):
+    """Case 313"""
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    # An attribute
+    merit_selection = {
+      'merit-id': u'deuce'
+    }
+    self.assertRaises(TypeError, self.c.post, '/character-manager/merit-dots/', merit_selection, HTTP_X_REQUESTED_WITH='XMLHttpRequest')

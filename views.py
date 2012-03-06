@@ -59,10 +59,15 @@ def character_sheet(request, sheet_id=None):
 def merit_dots(request):
   if request.user.is_authenticated() and request.method == 'POST' and request.is_ajax():
     if request.POST['merit-id'].isdigit():
-      merit = Trait.objects.get(pk=int(request.POST['merit-id']))
-      values, dots = zip(*merit.available_dots())
-      json_dots = json.dumps({ 'dots' : values })
-      return HttpResponse(json_dots, mimetype='text/json')
+      try:
+        merit = Trait.objects.get(pk=int(request.POST['merit-id']), trait_type__name='Merit')
+        values, dots = zip(*merit.available_dots())
+        json_dots = json.dumps({ 'dots' : values })
+        return HttpResponse(json_dots, mimetype='text/json')
+      except Trait.DoesNotExist:
+        raise ValueError
+    else:
+      raise TypeError
   
   return ''
         
