@@ -60,7 +60,10 @@ class SheetEditing(TestCase):
       'merit-0-level':u'2',
       'merit-0-character':u'1',
       'merit-0-trait':u'11',
-      'merit-0-specializations':u'Sometimes'
+      'merit-0-specializations':u'Sometimes',
+      'xplog-TOTAL_FORMS':u'0',
+      'xplog-MAX_NUM_FORMS':u'',
+      'xplog-INITIAL_FORMS':u'0',
     }
     
   def test_attribute_fields_are_on_form(self):
@@ -82,6 +85,12 @@ class SheetEditing(TestCase):
     sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     response = self.c.get(sheet.get_absolute_url())
     self.assertContains(response, 'name="merit-0-level"', count=5)
+    
+  def test_xplog_fields_are_on_form(self):
+    """Case 314"""
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    response = self.c.get(sheet.get_absolute_url())
+    self.assertContains(response, 'name="xplog-0-date"', count=1)
     
   def test_attribute_fields_are_filled(self):
     """Case 309"""
@@ -152,8 +161,35 @@ class SheetEditing(TestCase):
   def test_merit_dot_update_fail_when_item_not_a_number(self):
     """Case 313"""
     sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
-    # An attribute
     merit_selection = {
       'merit-id': u'deuce'
     }
     self.assertRaises(TypeError, self.c.post, '/character-manager/merit-dots/', merit_selection, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    
+class XpLogging(TestCase):
+  def setUp(self):
+    self.user = User.objects.create_user('testuser', 'testuser@thecharonsheet.com', password='dummy')
+    
+  def test_xplog_total_spent_calculates_correctly(self):
+    """Case 248"""
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    sheet.xp_log.xpentry_set.create(category=1, xp_change=10)
+    sheet.xp_log.xpentry_set.create(category=1, xp_change=-4)
+    sheet.xp_log.xpentry_set.create(category=1, xp_change=2)
+    self.assertEqual(sheet.xp_spent(), 4)
+    
+  def test_xplog_total_earned_calculates_correctly(self):
+    """Case 247"""
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    sheet.xp_log.xpentry_set.create(category=1, xp_change=10)
+    sheet.xp_log.xpentry_set.create(category=1, xp_change=-4)
+    sheet.xp_log.xpentry_set.create(category=1, xp_change=2)
+    self.assertEqual(sheet.xp_earned(), 12)
+    
+  def test_xplog_total_remaining_calculates_correctly(self):
+    """Case 246"""
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    sheet.xp_log.xpentry_set.create(category=1, xp_change=10)
+    sheet.xp_log.xpentry_set.create(category=1, xp_change=-4)
+    sheet.xp_log.xpentry_set.create(category=1, xp_change=2)
+    self.assertEqual(sheet.xp_remaining(), 8)

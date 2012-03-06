@@ -1,16 +1,27 @@
 from django.db import models
+from django.db.models import Sum
 from datetime import datetime
 from django.contrib.auth.models import User
 from game_manager.models import Trait, Game, Geist, Faction, Subrace
+from math import fabs
     
 class XpLog(models.Model):
   category_options = ((1, 'Game'), (2, 'Attribute'), (3, 'Merit'), (4, 'Downtime'))
+  
+  def xp_earned(self):
+    return self.xpentry_set.filter(xp_change__gt=0).aggregate(total_earned=Sum('xp_change'))['total_earned']
+    
+  def xp_remaining(self):
+    return self.xpentry_set.aggregate(total_remaining=Sum('xp_change'))['total_remaining']
+  
+  def xp_spent(self):
+    return int(fabs(self.xpentry_set.filter(xp_change__lt=0).aggregate(total_spent=Sum('xp_change'))['total_spent']))
 
 class XpEntry(models.Model):
+  date = models.DateField(default=datetime.now)
+  category = models.IntegerField(choices=XpLog.category_options, max_length=100)
   xp_change = models.IntegerField()
-  date = models.DateField(auto_now_add=True)
-  category = models.CharField(choices=XpLog.category_options, max_length=100)
-  details = models.TextField()
+  details = models.TextField(blank=True)
   xp_log = models.ForeignKey(XpLog, editable=False)
   
 class CharacterSheet(models.Model):
@@ -33,6 +44,15 @@ class CharacterSheet(models.Model):
       self.xp_log = XpLog.objects.create()
     super(CharacterSheet, self).save(*args, **kwargs) # Call the "real" save() method.
   
+  def xp_earned(self):
+    return self.xp_log.xp_earned()
+  
+  def xp_remaining(self):
+    return self.xp_log.xp_remaining()
+    
+  def xp_spent(self):
+    return self.xp_log.xp_spent()
+    
   def __unicode__(self):
     return u'%s' % (self.name)
 

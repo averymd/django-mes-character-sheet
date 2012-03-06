@@ -3,7 +3,7 @@ from django.http import HttpResponse, Http404, HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory, inlineformset_factory
 from django.template import RequestContext
-from models import GeistCharacterSheet, ChosenTrait
+from models import GeistCharacterSheet, ChosenTrait, XpEntry, XpLog
 from game_manager.models import Trait
 from forms import GeistCharacterSheetForm, ChosenAttributeSkillForm, ChosenSkillForm, ChosenMeritForm
 from django.conf import settings
@@ -27,20 +27,32 @@ def character_sheet(request, sheet_id=None):
           attribute_formset = setup_attribute_form(charsheet, post=request.POST)
           skill_formset = setup_skill_form(charsheet, post=request.POST)
           merit_formset = setup_merit_form(charsheet, post=request.POST)
+          xplog_formset = setup_xplog_form(charsheet, post=request.POST)
           
-          if sheet_form.is_valid() and attribute_formset.is_valid() and skill_formset.is_valid() and merit_formset.is_valid():
+          if sheet_form.is_valid() and attribute_formset.is_valid() and skill_formset.is_valid() and merit_formset.is_valid() and xplog_formset.is_valid():
             sheet_form.save()
             attribute_formset.save()
             skill_formset.save()
             merit_formset.save()
+            xplog_formset.save()
             return redirect('/character-manager/list/')
         else:
           sheet_form = GeistCharacterSheetForm(instance=charsheet)          
           attribute_formset = setup_attribute_form(charsheet)
           skill_formset = setup_skill_form(charsheet)
           merit_formset = setup_merit_form(charsheet)
+          xplog_formset = setup_xplog_form(charsheet)
         
-        return render_to_response('character_manager/character_sheet.html', { 'sheet_form' : sheet_form, 'attribute_formset' : attribute_formset, 'skill_formset' : skill_formset, 'merit_formset' : merit_formset, 'page_title' : 'New Character Sheet', 'page_name' : 'charsheetform' }, context_instance=RequestContext(request))
+        return render_to_response('character_manager/character_sheet.html', {
+          'charsheet' : charsheet,
+          'sheet_form' : sheet_form, 
+          'attribute_formset' : attribute_formset, 
+          'skill_formset' : skill_formset, 
+          'merit_formset' : merit_formset,
+          'xplog_formset' : xplog_formset,
+          'page_title' : 'New Character Sheet', 
+          'page_name' : 'charsheetform' }, 
+          context_instance=RequestContext(request))
       except GeistCharacterSheet.DoesNotExist:
         messages.error(request, 'That character sheet doesn\'t exist.')
         return redirect(list)
@@ -91,3 +103,10 @@ def setup_skill_form(charsheet, post=None):
     return SkillFormSet(post, instance=charsheet, queryset=ChosenTrait.objects.filter(trait__trait_type__name='Skill'), prefix='skill')
   else:
     return SkillFormSet(instance=charsheet, queryset=ChosenTrait.objects.filter(trait__trait_type__name='Skill'), prefix='skill')
+    
+def setup_xplog_form(charsheet, post=None):
+  XPLogFormSet = inlineformset_factory(XpLog, XpEntry, extra=1)
+  if post:
+    return XPLogFormSet(post, instance=charsheet.xp_log, prefix='xplog')
+  else:
+    return XPLogFormSet(instance=charsheet.xp_log, prefix='xplog')
