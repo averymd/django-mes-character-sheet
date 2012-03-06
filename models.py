@@ -19,6 +19,23 @@ class Trait(models.Model):
   uses_simple_calculation = models.BooleanField()
   custom_xp_per_dot = models.IntegerField(blank=True, null=True)
   
+  LEVEL_CHOICES = ((1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5'))
+  SKILL_LEVEL_CHOICES = ((0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5'))
+  
+  def available_dots(self):
+    try:
+      if self.specific_dots != '':
+        level_choices = tuple((int(i), str(i)) for i in self.specific_dots.split(','))
+      else:
+        if self.trait_type.name == 'Skill':
+          level_choices = Trait.SKILL_LEVEL_CHOICES
+        else:
+          level_choices = Trait.LEVEL_CHOICES
+    except Trait.DoesNotExist:
+      level_choices = Trait.LEVEL_CHOICES
+    
+    return level_choices
+  
   def __unicode__(self):
     return self.name
     
