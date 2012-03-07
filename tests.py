@@ -169,6 +169,8 @@ class SheetEditing(TestCase):
 class XpLogging(TestCase):
   def setUp(self):
     self.user = User.objects.create_user('testuser', 'testuser@thecharonsheet.com', password='dummy')
+    self.c = Client()
+    self.c.login(username=self.user.username, password='dummy')
     
   def test_xplog_total_spent_calculates_correctly(self):
     """Case 248"""
@@ -193,3 +195,4 @@ class XpLogging(TestCase):
     sheet.xp_log.xpentry_set.create(category=1, xp_change=-4)
     sheet.xp_log.xpentry_set.create(category=1, xp_change=2)
     self.assertEqual(sheet.xp_remaining(), 8)
+    

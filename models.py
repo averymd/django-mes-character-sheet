@@ -18,7 +18,7 @@ class XpLog(models.Model):
     return int(fabs(self.xpentry_set.filter(xp_change__lt=0).aggregate(total_spent=Sum('xp_change'))['total_spent']))
 
 class XpEntry(models.Model):
-  date = models.DateField(default=datetime.now)
+  date = models.DateField()
   category = models.IntegerField(choices=XpLog.category_options, max_length=100)
   xp_change = models.IntegerField()
   details = models.TextField(blank=True)
