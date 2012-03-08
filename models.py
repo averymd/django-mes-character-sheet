@@ -45,9 +45,15 @@ class Trait(models.Model):
         cost = new_level * self.trait_type.default_xp_cost_per_dot
     else:
       if self.custom_xp_per_dot is not None:
-        cost = sum([i * self.custom_xp_per_dot for i in range(old_level+1, new_level+1)])
+        if (old_level < new_level):
+          cost = sum([i * self.custom_xp_per_dot for i in range(old_level+1, new_level+1)])
+        else:
+          cost = -1*sum([i * self.custom_xp_per_dot for i in range(new_level+1, old_level+1)])
       else:
-        cost = sum([i * self.trait_type.default_xp_cost_per_dot for i in range(old_level+1, new_level+1)])
+        if (old_level < new_level):
+          cost = sum([i * self.trait_type.default_xp_cost_per_dot for i in range(old_level+1, new_level+1)])
+        else:
+          cost = -1*sum([i * self.trait_type.default_xp_cost_per_dot for i in range(new_level+1, old_level+1)])
   
     return -1*cost    
   
