@@ -81,7 +81,7 @@ def merit_dots(request):
     else:
       raise TypeError
   
-  return ''
+  return HttpResponseForbidden()
   
 def trait_xp(request):
   if request.user.is_authenticated() and request.method == 'POST' and request.is_ajax():
@@ -93,13 +93,13 @@ def trait_xp(request):
         values, dots = zip(*trait.available_dots())
         if new_level in values:
           json_xp = json.dumps({ 'xpchange' : character.cost_for_trait_change(trait, new_level) })
-        return HttpResponse(json_xp, mimetype='text/json')
+          return HttpResponse(json_xp, mimetype='text/json')
       except Trait.DoesNotExist, GeistCharacterSheet.DoesNotExist:
         raise ValueError
     else:
       raise TypeError
   
-  return ''
+  return HttpResponseForbidden()
         
 def setup_attribute_form(charsheet, post=None):
   AttributeFormSet = inlineformset_factory(GeistCharacterSheet, ChosenTrait, form=ChosenAttributeSkillForm, can_delete=False, extra=0)

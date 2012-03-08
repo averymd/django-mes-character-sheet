@@ -5,6 +5,7 @@ from datetime import datetime
 from models import GeistCharacterSheet, ChosenTrait
 from game_manager.models import Trait
 from django.db.models import Count
+import json
 
 class SheetCreation(TestCase):
   def setUp(self):
@@ -41,26 +42,30 @@ class SheetEditing(TestCase):
       'attribute-0-level':u'2',
       'attribute-0-character':u'1',
       'attribute-0-id':u'1',
+      'attribute-0-trait':u'%s' % (str(Trait.objects.get(name='Intelligence').id)),
       'attribute-1-level':u'1',
       'attribute-1-character':u'1',
       'attribute-1-id':u'2',
+      'attribute-1-trait':u'%s' % (str(Trait.objects.get(name='Strength').id)),
       'skill-TOTAL_FORMS':u'2',
       'skill-MAX_NUM_FORMS':u'',
       'skill-INITIAL_FORMS':u'2',
       'skill-0-level':u'2',
       'skill-0-character':u'1',
       'skill-0-id':u'10',
+      'skill-0-trait':u'%s' % (str(Trait.objects.get(name='Academics').id)),
       'skill-0-specializations':u'Research',
       'skill-1-level':u'1',
       'skill-1-character':u'1',
       'skill-1-id':u'11',
+      'skill-1-trait':u'%s' % (str(Trait.objects.get(name='Investigation').id)),
       'merit-TOTAL_FORMS':u'1',
       'merit-MAX_NUM_FORMS':u'',
       'merit-INITIAL_FORMS':u'0',
       'merit-0-id':'',
       'merit-0-level':u'2',
       'merit-0-character':u'1',
-      'merit-0-trait':u'11',
+      'merit-0-trait':u'%s' % (str(Trait.objects.get(name='Common Sense').id)),
       'merit-0-specializations':u'Sometimes',
       'xplog-TOTAL_FORMS':u'0',
       'xplog-MAX_NUM_FORMS':u'',
@@ -115,22 +120,22 @@ class SheetEditing(TestCase):
     """Case 312"""
     sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     response = self.c.post(sheet.get_absolute_url(), self.post_data, follow=True)
-    self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.all().filter(trait__name='Intelligence')[0].level, 2)
+    self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.get(trait__name='Intelligence').level, 2)
     
   def test_skills_can_be_changed(self):
     """Case 312"""
     sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     response = self.c.post(sheet.get_absolute_url(), self.post_data)
-    self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.all().filter(trait__name='Academics')[0].level, 2)
-    self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.all().filter(trait__name='Academics')[0].specializations, u'Research')
-    self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.all().filter(trait__name='Investigation')[0].level, 1)
+    self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.get(trait__name='Academics').level, 2)
+    self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.get(trait__name='Academics').specializations, u'Research')
+    self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.get(trait__name='Investigation').level, 1)
     
   def test_merits_can_be_added(self):
     """Case 312"""
     sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     response = self.c.post(sheet.get_absolute_url(), self.post_data, follow=True)
-    self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.all().filter(trait__name='Common Sense')[0].level, 2)
-    self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.all().filter(trait__name='Common Sense')[0].specializations, u'Sometimes')
+    self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.get(trait__name='Common Sense').level, 2)
+    self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.get(trait__name='Common Sense').specializations, u'Sometimes')
     
   def test_merit_dots_updated_when_single_dot_only_merit_selected(self):
     """Case 313"""
@@ -206,7 +211,8 @@ class XpLogging(TestCase):
       'character-id': u'1'
     }
     response = self.c.post('/character-manager/trait-xp/', trait_selection, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-    self.assertContains(response, '{"xpchange": -45}')
+    json_resp = json.loads(response.content)
+    self.assertEqual(json_resp['xpchange'], -45)
     
   def test_xplog_xp_spent_for_simple_cost_purchase_calculates_correctly(self):
     """Case 316"""
@@ -217,5 +223,44 @@ class XpLogging(TestCase):
       'character-id': u'1'
     }
     response = self.c.post('/character-manager/trait-xp/', trait_selection, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-    self.assertContains(response, '{"xpchange": -8}')
+    json_resp = json.loads(response.content)
+    self.assertEqual(json_resp['xpchange'], -8)
     
+  def test_xplog_xp_spent_for_skill_purchase_calculates_correctly(self):
+    """Case 316"""
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    trait_selection = {
+      'trait-id': u'%s' % Trait.objects.get(name='Subterfuge').id,
+      'new-level': u'4', # Currently level 0
+      'character-id': u'1'
+    }
+    response = self.c.post('/character-manager/trait-xp/', trait_selection, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    json_resp = json.loads(response.content)
+    self.assertEqual(json_resp['xpchange'], -30)
+    
+  def test_xplog_xp_spent_for_single_dot_skill_purchase_calculates_correctly(self):
+    """Case 316"""
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    trait_selection = {
+      'trait-id': u'%s' % Trait.objects.get(name='Subterfuge').id,
+      'new-level': u'1', # Currently level 0
+      'character-id': u'1'
+    }
+    response = self.c.post('/character-manager/trait-xp/', trait_selection, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    json_resp = json.loads(response.content)
+    self.assertEqual(json_resp['xpchange'], -3)
+    
+  def test_xplog_xp_spent_for_skill_selloff_calculates_correctly(self):
+    """Case 316"""
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    trait = sheet.chosentrait_set.get(trait=Trait.objects.get(name='Subterfuge'))
+    trait.level = 3
+    trait.save()
+    trait_selection = {
+      'trait-id': u'%s' % Trait.objects.get(name='Subterfuge').id,
+      'new-level': u'1', # Currently level 3
+      'character-id': u'1'
+    }
+    response = self.c.post('/character-manager/trait-xp/', trait_selection, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    json_resp = json.loads(response.content)
+    self.assertEqual(json_resp['xpchange'], 15)

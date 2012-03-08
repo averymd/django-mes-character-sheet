@@ -19,18 +19,20 @@ class ChosenAttributeSkillForm(ModelForm):
   def __init__(self, *args, **kwargs):
     super(ChosenAttributeSkillForm, self).__init__(*args, **kwargs)
     self.fields['level'] = ChoiceField(label=u'%s' % (self.instance.trait.name), required=True, choices=self.instance.trait.available_dots(), widget=RadioSelect())
+    self.fields['trait'] = ModelChoiceField(queryset=Trait.objects.filter(trait_type__name='Attribute'), widget=HiddenInput())
     
   class Meta:
     model = ChosenTrait
-    exclude = ('trait', 'specializations')
+    exclude = ('specializations')
     
 class ChosenSkillForm(ChosenAttributeSkillForm):
   def __init__(self, *args, **kwargs):
     super(ChosenAttributeSkillForm, self).__init__(*args, **kwargs)
     self.fields['level'] = ChoiceField(label=u'%s' % (self.instance.trait.name), required=False, choices=self.instance.trait.available_dots(), widget=RadioSelect())
+    self.fields['trait'] = ModelChoiceField(queryset=Trait.objects.filter(trait_type__name='Skill'),widget=HiddenInput())
     
   class Meta(ChosenAttributeSkillForm.Meta):
-    exclude = ('trait')    
+    exclude = ()    
 
 class ChosenMeritForm(ModelForm):   
   def __init__(self, *args, **kwargs):
