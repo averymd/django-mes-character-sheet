@@ -35,6 +35,21 @@ class Trait(models.Model):
       level_choices = Trait.LEVEL_CHOICES
     
     return level_choices
+      
+  def cost_for_trait_change(self, old_level, new_level):
+    cost = 0
+    if self.uses_simple_calculation:
+      if self.custom_xp_per_dot is not None:
+        cost = new_level * self.custom_xp_per_dot
+      else:
+        cost = new_level * self.trait_type.default_xp_cost_per_dot
+    else:
+      if self.custom_xp_per_dot is not None:
+        cost = sum([i * self.custom_xp_per_dot for i in range(old_level+1, new_level+1)])
+      else:
+        cost = sum([i * self.trait_type.default_xp_cost_per_dot for i in range(old_level+1, new_level+1)])
+  
+    return -1*cost    
   
   def __unicode__(self):
     return self.name

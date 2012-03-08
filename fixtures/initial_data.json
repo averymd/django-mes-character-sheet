@@ -699,7 +699,7 @@
       "custom_xp_per_dot": null, 
       "specific_dots": "2,4", 
       "trait_type": 4, 
-      "uses_simple_calculation": false
+      "uses_simple_calculation": true
     }
   }, 
   {
