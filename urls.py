@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from views import character_sheet, list, merit_dots
+from views import character_sheet, list, merit_dots, trait_xp
 
 urlpatterns = patterns(
   '',
@@ -20,5 +20,9 @@ urlpatterns = patterns(
   url(r'merit\-dots/$', 
     view = merit_dots,
     name = 'merit_dots'
+  ),
+  url(r'trait\-xp/$', 
+    view = trait_xp,
+    name = 'trait_xp'
   ),
 )

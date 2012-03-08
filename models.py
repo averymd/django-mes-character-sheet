@@ -63,6 +63,13 @@ class GeistCharacterSheet(CharacterSheet):
   faction = models.ForeignKey(Faction, blank=True, null=True)
   subrace = models.ForeignKey(Subrace, blank=True, null=True)
   
+  def cost_for_trait_change(self, trait, new_level):
+    try:
+      old_level = self.chosentrait_set.get(trait=trait).level
+    except ChosenTrait.DoesNotExist:
+      old_level = 0 # Probably a merit-ish thing.
+    return trait.cost_for_trait_change(old_level=old_level, new_level=new_level)
+    
   @models.permalink
   def get_absolute_url(self):
     return ('character_sheet_edit', (), {'sheet_id':str(self.id)})
@@ -84,6 +91,6 @@ class ChosenTrait(models.Model):
   specializations = models.CharField(max_length=300, blank=True)
   created_at = models.DateTimeField(default=datetime.now, editable=False)
   updated_at = models.DateTimeField(auto_now=True)
-      
-  def change_level(self):
-    return ''
+    
+  def __unicode__(self):
+    return u'%s at %s dots' % (self.trait, str(self.level))

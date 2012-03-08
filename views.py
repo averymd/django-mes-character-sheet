@@ -82,6 +82,24 @@ def merit_dots(request):
       raise TypeError
   
   return ''
+  
+def trait_xp(request):
+  if request.user.is_authenticated() and request.method == 'POST' and request.is_ajax():
+    if request.POST['trait-id'].isdigit() and request.POST['character-id'].isdigit() and request.POST['new-level'].isdigit():
+      try:
+        trait = Trait.objects.get(pk=int(request.POST['trait-id']))
+        character = GeistCharacterSheet.objects.get(pk=int(request.POST['character-id']), user=request.user)
+        new_level = int(request.POST['new-level'])
+        values, dots = zip(*trait.available_dots())
+        if new_level in values:
+          json_xp = json.dumps({ 'xpchange' : character.cost_for_trait_change(trait, new_level) })
+        return HttpResponse(json_xp, mimetype='text/json')
+      except Trait.DoesNotExist, GeistCharacterSheet.DoesNotExist:
+        raise ValueError
+    else:
+      raise TypeError
+  
+  return ''
         
 def setup_attribute_form(charsheet, post=None):
   AttributeFormSet = inlineformset_factory(GeistCharacterSheet, ChosenTrait, form=ChosenAttributeSkillForm, can_delete=False, extra=0)

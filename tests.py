@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.test.client import Client
 from django.contrib.auth.models import User
+from datetime import datetime
 from models import GeistCharacterSheet, ChosenTrait
 from game_manager.models import Trait
 from django.db.models import Count
@@ -175,24 +176,46 @@ class XpLogging(TestCase):
   def test_xplog_total_spent_calculates_correctly(self):
     """Case 248"""
     sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
-    sheet.xp_log.xpentry_set.create(category=1, xp_change=10)
-    sheet.xp_log.xpentry_set.create(category=1, xp_change=-4)
-    sheet.xp_log.xpentry_set.create(category=1, xp_change=2)
+    sheet.xp_log.xpentry_set.create(category=1, xp_change=10, date=datetime.now())
+    sheet.xp_log.xpentry_set.create(category=1, xp_change=-4, date=datetime.now())
+    sheet.xp_log.xpentry_set.create(category=1, xp_change=2, date=datetime.now())
     self.assertEqual(sheet.xp_spent(), 4)
     
   def test_xplog_total_earned_calculates_correctly(self):
     """Case 247"""
     sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
-    sheet.xp_log.xpentry_set.create(category=1, xp_change=10)
-    sheet.xp_log.xpentry_set.create(category=1, xp_change=-4)
-    sheet.xp_log.xpentry_set.create(category=1, xp_change=2)
+    sheet.xp_log.xpentry_set.create(category=1, xp_change=10, date=datetime.now())
+    sheet.xp_log.xpentry_set.create(category=1, xp_change=-4, date=datetime.now())
+    sheet.xp_log.xpentry_set.create(category=1, xp_change=2, date=datetime.now())
     self.assertEqual(sheet.xp_earned(), 12)
     
   def test_xplog_total_remaining_calculates_correctly(self):
     """Case 246"""
     sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
-    sheet.xp_log.xpentry_set.create(category=1, xp_change=10)
-    sheet.xp_log.xpentry_set.create(category=1, xp_change=-4)
-    sheet.xp_log.xpentry_set.create(category=1, xp_change=2)
+    sheet.xp_log.xpentry_set.create(category=1, xp_change=10, date=datetime.now())
+    sheet.xp_log.xpentry_set.create(category=1, xp_change=-4, date=datetime.now())
+    sheet.xp_log.xpentry_set.create(category=1, xp_change=2, date=datetime.now())
     self.assertEqual(sheet.xp_remaining(), 8)
+    
+  def test_xplog_xp_spent_for_cumulative_cost_purchase_calculates_correctly(self):
+    """Case 316"""
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    trait_selection = {
+      'trait-id': u'%s' % Trait.objects.get(name='Intelligence').id,
+      'new-level': u'4', # Currently level 1
+      'character-id': u'1'
+    }
+    response = self.c.post('/character-manager/trait-xp/', trait_selection, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    self.assertContains(response, '{"xpchange": -45}')
+    
+  def test_xplog_xp_spent_for_simple_cost_purchase_calculates_correctly(self):
+    """Case 316"""
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    trait_selection = {
+      'trait-id': u'%s' % Trait.objects.get(name='Striking Looks').id,
+      'new-level': u'4', # Currently level 0
+      'character-id': u'1'
+    }
+    response = self.c.post('/character-manager/trait-xp/', trait_selection, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    self.assertContains(response, '{"xpchange": -8}')
     
