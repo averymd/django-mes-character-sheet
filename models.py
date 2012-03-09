@@ -6,7 +6,7 @@ from game_manager.models import Trait, Game, Geist, Faction, Subrace
 from math import fabs
     
 class XpLog(models.Model):
-  category_options = ((1, 'Game'), (2, 'Attribute'), (3, 'Merit'), (4, 'Downtime'))
+  category_options = ((1, 'Game'), (2, 'Attribute'), (3, 'Merit'), (4, 'Downtime'), (5, 'Skill'))
   
   def xp_earned(self):
     return self.xpentry_set.filter(xp_change__gt=0).aggregate(total_earned=Sum('xp_change'))['total_earned']

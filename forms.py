@@ -1,4 +1,4 @@
-from django.forms import ModelForm, HiddenInput, IntegerField, CharField, ChoiceField, Select, ModelChoiceField, RadioSelect
+from django.forms import ModelForm, HiddenInput, IntegerField, CharField, ChoiceField, Select, ModelChoiceField, RadioSelect, Textarea
 from character_manager.models import GeistCharacterSheet, ChosenTrait, XpLog, XpEntry
 from game_manager.models import Geist, Trait, Faction, Subrace
 
@@ -55,5 +55,9 @@ class XpLogForm(ModelForm):
     model = XpLog
     
 class XpEntryForm(ModelForm):
+  def __init__(self, *args, **kwargs):
+    super(XpEntryForm, self).__init__(*args, **kwargs)
+    self.fields['details'].widget = Textarea(attrs={'rows': '2', 'cols':'30'})
+    
   class Meta:
     model = XpEntry

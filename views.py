@@ -5,7 +5,7 @@ from django.forms.models import modelformset_factory, inlineformset_factory
 from django.template import RequestContext
 from models import GeistCharacterSheet, ChosenTrait, XpEntry, XpLog
 from game_manager.models import Trait
-from forms import GeistCharacterSheetForm, ChosenAttributeSkillForm, ChosenSkillForm, ChosenMeritForm
+from forms import GeistCharacterSheetForm, ChosenAttributeSkillForm, ChosenSkillForm, ChosenMeritForm, XpEntryForm
 from django.conf import settings
 from django.contrib import messages
 import json
@@ -91,8 +91,9 @@ def trait_xp(request):
         character = GeistCharacterSheet.objects.get(pk=int(request.POST['character-id']), user=request.user)
         new_level = int(request.POST['new-level'])
         values, dots = zip(*trait.available_dots())
+        code, type = zip(*XpLog.category_options)
         if new_level in values:
-          json_xp = json.dumps({ 'xpchange' : character.cost_for_trait_change(trait, new_level) })
+          json_xp = json.dumps({ 'xpchange' : character.cost_for_trait_change(trait, new_level), 'types' : dict(zip(type, code)) })
           return HttpResponse(json_xp, mimetype='text/json')
       except Trait.DoesNotExist, GeistCharacterSheet.DoesNotExist:
         raise ValueError
@@ -123,7 +124,7 @@ def setup_skill_form(charsheet, post=None):
     return SkillFormSet(instance=charsheet, queryset=ChosenTrait.objects.filter(trait__trait_type__name='Skill'), prefix='skill')
     
 def setup_xplog_form(charsheet, post=None):
-  XPLogFormSet = inlineformset_factory(XpLog, XpEntry, extra=1)
+  XPLogFormSet = inlineformset_factory(XpLog, XpEntry, form=XpEntryForm, extra=1)
   if post:
     return XPLogFormSet(post, instance=charsheet.xp_log, prefix='xplog')
   else:

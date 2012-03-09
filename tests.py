@@ -250,7 +250,7 @@ class XpLogging(TestCase):
     json_resp = json.loads(response.content)
     self.assertEqual(json_resp['xpchange'], -3)
     
-  def test_xplog_xp_spent_for_skill_selloff_calculates_correctly(self):
+  def test_xplog_xp_spent_for_cumulative_selloff_calculates_correctly(self):
     """Case 316"""
     sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     trait = sheet.chosentrait_set.get(trait=Trait.objects.get(name='Subterfuge'))
@@ -264,3 +264,16 @@ class XpLogging(TestCase):
     response = self.c.post('/character-manager/trait-xp/', trait_selection, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
     json_resp = json.loads(response.content)
     self.assertEqual(json_resp['xpchange'], 15)
+    
+  def test_xplog_xp_spent_for_simple_selloff_calculates_correctly(self):
+    """Case 316"""
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    sheet.chosentrait_set.create(trait=Trait.objects.get(name='Striking Looks'), level=4)
+    trait_selection = {
+      'trait-id': u'%s' % Trait.objects.get(name='Striking Looks').id,
+      'new-level': u'2', # Currently level 4
+      'character-id': u'1'
+    }
+    response = self.c.post('/character-manager/trait-xp/', trait_selection, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    json_resp = json.loads(response.content)
+    self.assertEqual(json_resp['xpchange'], 4)
