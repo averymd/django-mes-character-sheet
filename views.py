@@ -23,7 +23,7 @@ def character_sheet(request, sheet_id=None):
       try:
         charsheet = GeistCharacterSheet.objects.get(pk=sheet_id, user=request.user)
         if request.method == 'POST':
-          sheet_form = GeistCharacterSheetForm(request.POST, instance=charsheet)          
+          sheet_form = GeistCharacterSheetForm(request.POST, user=request.user, instance=charsheet)          
           attribute_formset = setup_attribute_form(charsheet, post=request.POST)
           skill_formset = setup_skill_form(charsheet, post=request.POST)
           merit_formset = setup_merit_form(charsheet, post=request.POST)
@@ -37,7 +37,7 @@ def character_sheet(request, sheet_id=None):
             xplog_formset.save()
             return redirect('/character-manager/list/')
         else:
-          sheet_form = GeistCharacterSheetForm(instance=charsheet)          
+          sheet_form = GeistCharacterSheetForm(user=request.user, instance=charsheet)          
           attribute_formset = setup_attribute_form(charsheet)
           skill_formset = setup_skill_form(charsheet)
           merit_formset = setup_merit_form(charsheet)
@@ -58,14 +58,14 @@ def character_sheet(request, sheet_id=None):
         return redirect(list)
     else:
       if request.method == 'POST':
-        sheet_form = GeistCharacterSheetForm(request.POST)
+        sheet_form = GeistCharacterSheetForm(request.POST, user=request.user)
         if sheet_form.is_valid():
           sheet = sheet_form.save(commit=False)
           sheet.user = request.user
           sheet.save()
           return redirect(sheet.get_absolute_url())
       else:
-        sheet_form = GeistCharacterSheetForm()        
+        sheet_form = GeistCharacterSheetForm(user=request.user)        
         return render_to_response('character_manager/character_sheet.html', { 'sheet_form' : sheet_form, 'page_title' : 'New Character Sheet', 'page_name' : 'charsheetform' }, context_instance=RequestContext(request))
 
 def merit_dots(request):

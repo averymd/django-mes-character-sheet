@@ -31,6 +31,12 @@ class CharacterSheet(models.Model):
   dob = models.CharField(max_length=100, blank=True)
   virtue = models.IntegerField(choices=Game.virtue_options, blank=True, null=True)
   vice = models.IntegerField(choices=Game.vice_options, blank=True, null=True)
+  mc_level_at_creation = models.IntegerField()
+  primary_character = models.BooleanField()
+  storyteller_name = models.CharField(max_length=100)
+  storyteller_email = models.EmailField()
+  coordinator_name = models.CharField(max_length=200)
+  coordinator_email = models.EmailField()
   xp_log = models.OneToOneField(XpLog) 
   user = models.ForeignKey(User, editable=False)
   

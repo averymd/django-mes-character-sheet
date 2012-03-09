@@ -5,11 +5,13 @@ from game_manager.models import Geist, Trait, Faction, Subrace
 class GeistCharacterSheetForm(ModelForm):  
   dob = CharField(label='Date of Birth', required=False)
   
-  def __init__(self, *args, **kwargs):
+  def __init__(self, user, *args, **kwargs):
     super(GeistCharacterSheetForm, self).__init__(*args, **kwargs)
     game = Geist.objects.get(pk=1)
     self.fields['faction'].label = '%s' % (game.faction_name)
     self.fields['subrace'].label='%s' % (game.subrace_name)
+    self.fields['coordinator_name'].initial = user.profile.coordinator_name
+    self.fields['coordinator_email'].initial = user.profile.coordinator_email
   
   class Meta:
     model = GeistCharacterSheet
