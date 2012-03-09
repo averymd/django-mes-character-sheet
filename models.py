@@ -40,9 +40,15 @@ class Trait(models.Model):
     cost = 0
     if self.uses_simple_calculation:
       if self.custom_xp_per_dot is not None:
-        cost = new_level * self.custom_xp_per_dot
+        if (old_level < new_level):
+          cost = new_level * self.custom_xp_per_dot
+        else:
+          cost = (new_level - old_level) * self.custom_xp_per_dot
       else:
-        cost = new_level * self.trait_type.default_xp_cost_per_dot
+        if (old_level < new_level):
+          cost = new_level * self.trait_type.default_xp_cost_per_dot
+        else:
+          cost = (new_level - old_level) * self.trait_type.default_xp_cost_per_dot
     else:
       if self.custom_xp_per_dot is not None:
         if (old_level < new_level):
