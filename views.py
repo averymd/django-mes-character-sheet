@@ -10,66 +10,72 @@ from django.conf import settings
 from django.contrib import messages
 import json
 
+@login_required
 def list(request):
-  if request.user.is_authenticated():
-    charsheets = GeistCharacterSheet.objects.filter(user=request.user)
-    
-    return render_to_response('character_manager/list.html', {'character_sheets' : charsheets, 'page_title' : 'Character Sheets', 'page_name' : 'charsheets'},
-      context_instance=RequestContext(request))
+  charsheets = GeistCharacterSheet.objects.filter(user=request.user)
+  
+  return render_to_response('character_manager/list.html', {'character_sheets' : charsheets, 'page_title' : 'Character Sheets', 'page_name' : 'charsheets'},
+    context_instance=RequestContext(request))
 
+@login_required
 def character_sheet(request, sheet_id=None):
-  if request.user.is_authenticated():
-    if sheet_id is not None:
-      try:
-        charsheet = GeistCharacterSheet.objects.get(pk=sheet_id, user=request.user)
-        if request.method == 'POST':
-          sheet_form = GeistCharacterSheetForm(request.POST, user=request.user, instance=charsheet)          
-          attribute_formset = setup_attribute_form(charsheet, post=request.POST)
-          skill_formset = setup_skill_form(charsheet, post=request.POST)
-          merit_formset = setup_merit_form(charsheet, post=request.POST)
-          xplog_formset = setup_xplog_form(charsheet, post=request.POST)
-          
-          if sheet_form.is_valid() and attribute_formset.is_valid() and skill_formset.is_valid() and merit_formset.is_valid() and xplog_formset.is_valid():
-            sheet_form.save()
-            attribute_formset.save()
-            skill_formset.save()
-            merit_formset.save()
-            xplog_formset.save()
-            return redirect('/character-manager/list/')
-        else:
-          sheet_form = GeistCharacterSheetForm(user=request.user, instance=charsheet)          
-          attribute_formset = setup_attribute_form(charsheet)
-          skill_formset = setup_skill_form(charsheet)
-          merit_formset = setup_merit_form(charsheet)
-          xplog_formset = setup_xplog_form(charsheet)
-        
-        return render_to_response('character_manager/character_sheet.html', {
-          'charsheet' : charsheet,
-          'sheet_form' : sheet_form, 
-          'attribute_formset' : attribute_formset, 
-          'skill_formset' : skill_formset, 
-          'merit_formset' : merit_formset,
-          'xplog_formset' : xplog_formset,
-          'page_title' : 'New Character Sheet', 
-          'page_name' : 'charsheetform' }, 
-          context_instance=RequestContext(request))
-      except GeistCharacterSheet.DoesNotExist:
-        messages.error(request, 'That character sheet doesn\'t exist.')
-        return redirect(list)
-    else:
+  if sheet_id is not None:
+    try:
+      charsheet = GeistCharacterSheet.objects.get(pk=sheet_id, user=request.user)
       if request.method == 'POST':
-        sheet_form = GeistCharacterSheetForm(request.POST, user=request.user)
-        if sheet_form.is_valid():
-          sheet = sheet_form.save(commit=False)
-          sheet.user = request.user
-          sheet.save()
-          return redirect(sheet.get_absolute_url())
+        sheet_form = GeistCharacterSheetForm(request.POST, user=request.user, instance=charsheet)          
+        attribute_formset = setup_attribute_form(charsheet, post=request.POST)
+        skill_formset = setup_skill_form(charsheet, post=request.POST)
+        merit_formset = setup_merit_form(charsheet, post=request.POST)
+        xplog_formset = setup_xplog_form(charsheet, post=request.POST)
+        sheet_valid = sheet_form.is_valid()
+        attribute_valid = attribute_formset.is_valid()
+        skill_valid = skill_formset.is_valid()
+        merit_valid = merit_formset.is_valid()
+        xplog_valid = xplog_formset.is_valid()
+        if sheet_valid and attribute_valid and skill_valid and merit_valid and xplog_valid:
+          sheet_form.save()
+          attribute_formset.save()
+          skill_formset.save()
+          merit_formset.save()
+          xplog_formset.save()
+          return redirect('/character-manager/list/')
       else:
-        sheet_form = GeistCharacterSheetForm(user=request.user)        
-        return render_to_response('character_manager/character_sheet.html', { 'sheet_form' : sheet_form, 'page_title' : 'New Character Sheet', 'page_name' : 'charsheetform' }, context_instance=RequestContext(request))
+        sheet_form = GeistCharacterSheetForm(instance=charsheet, user=request.user)          
+        attribute_formset = setup_attribute_form(charsheet)
+        skill_formset = setup_skill_form(charsheet)
+        merit_formset = setup_merit_form(charsheet)
+        xplog_formset = setup_xplog_form(charsheet)
+      
+      return render_to_response('character_manager/character_sheet.html', {
+        'charsheet' : charsheet,
+        'sheet_form' : sheet_form, 
+        'attribute_formset' : attribute_formset, 
+        'skill_formset' : skill_formset, 
+        'merit_formset' : merit_formset,
+        'xplog_formset' : xplog_formset,
+        'page_title' : 'New Character Sheet', 
+        'page_name' : 'charsheetform' }, 
+        context_instance=RequestContext(request))
+    except GeistCharacterSheet.DoesNotExist:
+      messages.error(request, 'That character sheet doesn\'t exist.')
+      return redirect(list)
+  else:
+    # A new sheet
+    if request.method == 'POST':
+      sheet_form = GeistCharacterSheetForm(request.POST, user=request.user)
+      if sheet_form.is_valid():
+        sheet = sheet_form.save(commit=False)
+        sheet.user = request.user
+        sheet.save()
+        return redirect(sheet.get_absolute_url())
+    else:
+      sheet_form = GeistCharacterSheetForm(user=request.user)        
+  return render_to_response('character_manager/character_sheet.html', { 'sheet_form' : sheet_form, 'page_title' : 'New Character Sheet', 'page_name' : 'charsheetform' }, context_instance=RequestContext(request))
 
+@login_required
 def merit_dots(request):
-  if request.user.is_authenticated() and request.method == 'POST' and request.is_ajax():
+  if request.method == 'POST' and request.is_ajax():
     if request.POST['merit-id'].isdigit():
       try:
         merit = Trait.objects.get(pk=int(request.POST['merit-id']), trait_type__name='Merit')
@@ -83,8 +89,9 @@ def merit_dots(request):
   
   return HttpResponseForbidden()
   
+@login_required
 def trait_xp(request):
-  if request.user.is_authenticated() and request.method == 'POST' and request.is_ajax():
+  if request.method == 'POST' and request.is_ajax():
     if request.POST['trait-id'].isdigit() and request.POST['character-id'].isdigit() and request.POST['new-level'].isdigit():
       try:
         trait = Trait.objects.get(pk=int(request.POST['trait-id']))
