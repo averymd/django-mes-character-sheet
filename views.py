@@ -12,7 +12,7 @@ import json
 
 @login_required
 def list(request):
-  charsheets = GeistCharacterSheet.objects.filter(user=request.user)
+  charsheets = GeistCharacterSheet.objects.filter(user=request.user, is_active=True)
   
   return render_to_response('character_manager/list.html', {'character_sheets' : charsheets, 'page_title' : 'Character Sheets', 'page_name' : 'charsheets'},
     context_instance=RequestContext(request))
@@ -21,8 +21,10 @@ def list(request):
 def character_sheet(request, sheet_id=None):
   if sheet_id is not None:
     try:
-      charsheet = GeistCharacterSheet.objects.get(pk=sheet_id, user=request.user)
+      charsheet = GeistCharacterSheet.objects.get(pk=sheet_id, user=request.user, is_active=True)
       if request.method == 'POST':
+        if 'delete-character' in request.POST:
+          return delete(request, charsheet)
         sheet_form = GeistCharacterSheetForm(request.POST, user=request.user, instance=charsheet)          
         attribute_formset = setup_attribute_form(charsheet, post=request.POST)
         skill_formset = setup_skill_form(charsheet, post=request.POST)
@@ -39,7 +41,9 @@ def character_sheet(request, sheet_id=None):
           skill_formset.save()
           merit_formset.save()
           xplog_formset.save()
-          return redirect('/character-manager/list/')
+          if 'return' in request.POST:
+            return redirect(list)
+          return redirect(charsheet.get_absolute_url())
       else:
         sheet_form = GeistCharacterSheetForm(instance=charsheet, user=request.user)          
         attribute_formset = setup_attribute_form(charsheet)
@@ -68,11 +72,19 @@ def character_sheet(request, sheet_id=None):
         sheet = sheet_form.save(commit=False)
         sheet.user = request.user
         sheet.save()
+        if 'return' in request.POST:
+          return redirect(list)
         return redirect(sheet.get_absolute_url())
     else:
       sheet_form = GeistCharacterSheetForm(user=request.user)        
   return render_to_response('character_manager/character_sheet.html', { 'sheet_form' : sheet_form, 'page_title' : 'New Character Sheet', 'page_name' : 'charsheetform' }, context_instance=RequestContext(request))
 
+def delete(request, character):
+  character.is_active = False
+  character.save()
+  messages.info(request, 'The character has been deleted.')
+  return redirect(list)
+  
 @login_required
 def merit_dots(request):
   if request.method == 'POST' and request.is_ajax():

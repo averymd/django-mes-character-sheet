@@ -16,7 +16,7 @@ class GeistCharacterSheetForm(ModelForm):
   
   class Meta:
     model = GeistCharacterSheet
-    exclude = ('xp_log')
+    exclude = ('xp_log, is_active')
     
 class ChosenAttributeSkillForm(ModelForm):   
   def __init__(self, *args, **kwargs):

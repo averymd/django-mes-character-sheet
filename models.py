@@ -37,7 +37,8 @@ class CharacterSheet(models.Model):
   storyteller_email = models.EmailField(blank=True)
   coordinator_name = models.CharField(max_length=200, blank=True)
   coordinator_email = models.EmailField(blank=True)
-  xp_log = models.OneToOneField(XpLog) 
+  is_active = models.BooleanField(default=True)
+  xp_log = models.OneToOneField(XpLog)
   user = models.ForeignKey(User, editable=False)
   
   created_at = models.DateTimeField(default=datetime.now, editable=False)

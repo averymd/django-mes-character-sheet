@@ -28,6 +28,20 @@ class SheetCreation(TestCase):
     sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     self.assertEqual(len(sheet.chosentrait_set.filter(trait__trait_type__name='Skill')), 21)
     
+  def test_choosing_save_and_continue_stays_on_character_page(self):
+    """Case 320"""
+    c = Client()
+    c.login(username=self.user.username, password='dummy')
+    response = c.post('/character-manager/character-sheet/', {'name':'Tasty SE', 'continue-editing': 'blah'}, follow=True)
+    self.assertRedirects(response, '/character-manager/character-sheet/1/')
+    
+  def test_choosing_save_and_return_returns_to_list(self):
+    """Case 320"""
+    c = Client()
+    c.login(username=self.user.username, password='dummy')
+    response = c.post('/character-manager/character-sheet/', {'name':'Tasty SE', 'return': 'blah'}, follow=True)
+    self.assertRedirects(response, '/character-manager/list/')
+    
 class SheetEditing(TestCase):
   def setUp(self):
     self.user = User.objects.create_user('testuser', 'testuser@thecharonsheet.com', password='dummy')
@@ -104,10 +118,22 @@ class SheetEditing(TestCase):
     response = self.c.get(sheet.get_absolute_url())
     self.assertContains(response, 'id="id_attribute-0-level_0" value="1"')
    
-  def test_posting_edit_redirects_to_list(self):
-    """Case 312"""
-    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
-    response = self.c.post(sheet.get_absolute_url(), self.post_data, follow=True)
+  def test_edit_choosing_save_and_continue_stays_on_character_page(self):
+    """Case 320"""
+    c = Client()
+    c.login(username=self.user.username, password='dummy')
+    post_data = self.post_data
+    post_data['continue-editing'] = 'blah'
+    response = c.post('/character-manager/character-sheet/', post_data, follow=True)
+    self.assertRedirects(response, '/character-manager/character-sheet/1/')
+    
+  def test_edit_choosing_save_and_return_returns_to_list(self):
+    """Case 320"""
+    c = Client()
+    c.login(username=self.user.username, password='dummy')
+    post_data = self.post_data
+    post_data['return'] = 'blah'
+    response = c.post('/character-manager/character-sheet/', post_data, follow=True)
     self.assertRedirects(response, '/character-manager/list/')
     
   def test_character_info_can_be_changed(self):
@@ -171,7 +197,43 @@ class SheetEditing(TestCase):
       'merit-id': u'deuce'
     }
     self.assertRaises(TypeError, self.c.post, '/character-manager/merit-dots/', merit_selection, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+class Deletion(TestCase):
+  def setUp(self):
+    self.user = User.objects.create_user('testuser', 'testuser@thecharonsheet.com', password='dummy')
+    self.c = Client()
+    self.c.login(username=self.user.username, password='dummy')
     
+  def test_deletion_causes_redirect(self):
+    """Case 319"""
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    post_data = {
+      'delete-character': u'Delete character'
+    }
+    response = self.c.post('/character-manager/character-sheet/1/', post_data, follow=True)
+    self.assertRedirects(response, '/character-manager/list/')
+    
+  def test_deletion_causes_sheet_to_become_inactive(self):
+    """Case 319"""
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    post_data = {
+      'delete-character': u'Delete character'
+    }
+    response = self.c.post('/character-manager/character-sheet/1/', post_data, follow=True)
+    sheet = GeistCharacterSheet.objects.get(name='Happy SE', user=self.user)
+    self.assertEqual(sheet.is_active, False)
+
+  def test_deletion_hides_sheet(self):
+    """Case 319"""
+    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    post_data = {
+      'delete-character': u'Delete character'
+    }
+    response = self.c.post('/character-manager/character-sheet/1/', post_data, follow=True)
+    sheet = GeistCharacterSheet.objects.get(name='Happy SE', user=self.user)
+    self.assertNotContains(response, 'Happy SE')
+    
+  
 class XpLogging(TestCase):
   def setUp(self):
     self.user = User.objects.create_user('testuser', 'testuser@thecharonsheet.com', password='dummy')

@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from views import character_sheet, list, merit_dots, trait_xp
+from views import character_sheet, list, merit_dots, trait_xp, delete
 
 urlpatterns = patterns(
   '',
@@ -14,6 +14,10 @@ urlpatterns = patterns(
   url(r'character\-sheet/(?P<sheet_id>[0-9]+)/$', 
     view = character_sheet,
     name = 'character_sheet_edit'
+  ),
+  url(r'character\-sheet/delete/$', 
+    view = delete,
+    name = 'character_sheet_delete'
   ),
   (r'^logout/$', 'django.contrib.auth.views.logout'),
   (r'', include('django_openid_auth.urls')),
