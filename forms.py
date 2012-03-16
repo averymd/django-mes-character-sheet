@@ -1,6 +1,7 @@
 from django.forms import ModelForm, HiddenInput, IntegerField, CharField, ChoiceField, Select, ModelChoiceField, RadioSelect, Textarea
 from character_manager.models import GeistCharacterSheet, ChosenTrait, XpLog, XpEntry
 from game_manager.models import Geist, Trait, Faction, Subrace
+from widgets import DotRenderer
 
 class GeistCharacterSheetForm(ModelForm):  
   dob = CharField(label='Date of Birth', required=False)
@@ -35,20 +36,33 @@ class ChosenSkillForm(ChosenAttributeSkillForm):
     self.fields['trait'] = ModelChoiceField(queryset=Trait.objects.filter(trait_type__name='Skill'),widget=HiddenInput())
     
   class Meta(ChosenAttributeSkillForm.Meta):
-    exclude = ()    
+    exclude = ()
 
 class ChosenMeritForm(ModelForm):   
   def __init__(self, *args, **kwargs):
     super(ChosenMeritForm, self).__init__(*args, **kwargs)
     self.fields['specializations'].label = u'Details'
     self.fields['trait'] = ModelChoiceField(required=True, queryset=Trait.objects.filter(trait_type__name='Merit'))
-    self.fields['trait'].label = u'Merit'
-    try:
-      self.fields['level'] = ChoiceField(choices=self.instance.trait.available_dots(), 
-        widget=RadioSelect())
+    self.fields['level'] = ChoiceField(choices=Trait.LEVEL_CHOICES, widget=RadioSelect(renderer=DotRenderer), label=u'Merit')
+    
+    try: 
+      self.fields['level'].widget.renderer.actives = self.active_dots()
     except Trait.DoesNotExist:
-      self.fields['level'] = ChoiceField(choices=Trait.LEVEL_CHOICES, 
-        widget=RadioSelect())
+      pass #del self.fields['level'].widget.renderer.actives
+    
+  def active_dots(self):
+    self.available_dots = []
+    for dot in Trait.LEVEL_CHOICES:
+      print "%s's available dots" % (self.instance.trait)
+      print self.instance.trait.available_dots()
+      if dot not in self.instance.trait.available_dots():
+        self.available_dots.append(False)
+      else:
+        self.available_dots.append(True)
+    print 'no exception for %s' % (self.instance.trait)
+    print 'all dots after all changes'
+    print self.available_dots
+    return self.available_dots
     
   class Meta:
     model = ChosenTrait

@@ -197,6 +197,27 @@ class SheetEditing(TestCase):
       'merit-id': u'deuce'
     }
     self.assertRaises(TypeError, self.c.post, '/character-manager/merit-dots/', merit_selection, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    
+class MeritDotDisabling(TestCase):
+  def setUp(self):
+    self.user = User.objects.create_user('testuser', 'testuser@thecharonsheet.com', password='dummy')
+    self.sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    #self.sheet.chosentrait_set.create(trait=Trait.objects.get(name='Common Sense'), level=1)
+    self.c = Client()
+    self.c.login(username=self.user.username, password='dummy')
+    
+  def test_correct_dots_disabled_for_single_merit(self):
+    """Case 317"""
+    self.sheet.chosentrait_set.create(trait=Trait.objects.get(name='Fast Reflexes'), level=2)
+    self.sheet = GeistCharacterSheet.objects.get(pk=self.sheet.pk)
+    response = self.c.get(self.sheet.get_absolute_url())
+    self.assertContains(response, 'disabled="True" type="radio"', count=3)
+    self.assertContains(response, '<input type="radio" id="id_merit-0-level_0" value="1" name="merit-0-level">')
+    self.assertContains(response, '<input checked="checked" type="radio" id="id_merit-0-level_1" value="2" name="merit-0-level">')
+    self.assertContains(response, '<input disabled="True" type="radio" id="id_merit-0-level_2" value="3" name="merit-0-level">')
+    self.assertContains(response, '<input disabled="True" type="radio" id="id_merit-0-level_3" value="4" name="merit-0-level">')
+    self.assertContains(response, '<input disabled="True" type="radio" id="id_merit-0-level_4" value="5" name="merit-0-level">')
+  
 
 class Deletion(TestCase):
   def setUp(self):

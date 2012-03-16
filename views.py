@@ -131,9 +131,10 @@ def setup_attribute_form(charsheet, post=None):
 def setup_merit_form(charsheet, post=None):
   MeritFormSet = inlineformset_factory(GeistCharacterSheet, ChosenTrait, form=ChosenMeritForm, extra=1)
   if post:
-    return MeritFormSet(post, instance=charsheet, queryset=ChosenTrait.objects.filter(trait__trait_type__name='Merit'), prefix='merit')
+    forms = MeritFormSet(post, instance=charsheet, queryset=ChosenTrait.objects.filter(trait__trait_type__name='Merit'), prefix='merit')
   else:
-    return MeritFormSet(instance=charsheet, queryset=ChosenTrait.objects.filter(trait__trait_type__name='Merit'), prefix='merit')  
+    forms = MeritFormSet(instance=charsheet, queryset=ChosenTrait.objects.filter(trait__trait_type__name='Merit'), prefix='merit')
+  return forms
 
 def setup_skill_form(charsheet, post=None):
   SkillFormSet = inlineformset_factory(GeistCharacterSheet, ChosenTrait, form=ChosenSkillForm, can_delete=False, extra=0)
