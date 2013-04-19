@@ -10,7 +10,7 @@ function CharacterSheetDetailCtrl($scope, $routeParams, $location, CharacterShee
     $scope.character.game_name = 'geist';
   }
   if (typeof ($scope.character.skills) == 'undefined') {
-    $scope.character.skills = [];
+    $scope.character.skills = {};
   }
   $scope.factions = Faction.query({game_id: $scope.character.game_id});
   $scope.game = Game.get({game_name: $scope.character.game_name, game_id: $scope.character.game_id});
