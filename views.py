@@ -1,90 +1,34 @@
 from django.shortcuts import redirect, get_object_or_404, render_to_response
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, Http404, HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory, inlineformset_factory
 from django.template import RequestContext
-from models import GeistCharacterSheet, ChosenTrait, XpEntry, XpLog
+from models import GeistCharacterSheet, ChosenTrait, XpEntry, XpLog, Character
 from game_manager.models import Trait
 from forms import GeistCharacterSheetForm, ChosenAttributeSkillForm, ChosenSkillForm, ChosenMeritForm, XpEntryForm
+from character_manager.serializers import CharacterSerializer
 from django.conf import settings
 from django.contrib import messages
-import json
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 @login_required
-def list(request):
-  charsheets = GeistCharacterSheet.objects.filter(user=request.user, is_active=True)
-  
-  return render_to_response('character_manager/list.html', {'character_sheets' : charsheets, 'page_title' : 'Character Sheets', 'page_name' : 'charsheets'},
+def index(request):  
+  return render_to_response('character_manager/index.html', {'page_title' : 'Character Sheets', 'page_name' : 'charsheets'},
     context_instance=RequestContext(request))
 
 @login_required
-def character_sheet(request, sheet_id=None):
-  if sheet_id is not None:
-    try:
-      charsheet = GeistCharacterSheet.objects.get(pk=sheet_id, user=request.user, is_active=True)
-      if request.method == 'POST':
-        if 'delete-character' in request.POST:
-          return delete(request, charsheet)
-        sheet_form = GeistCharacterSheetForm(request.POST, user=request.user, instance=charsheet)          
-        attribute_formset = setup_attribute_form(charsheet, post=request.POST)
-        skill_formset = setup_skill_form(charsheet, post=request.POST)
-        merit_formset = setup_merit_form(charsheet, post=request.POST)
-        xplog_formset = setup_xplog_form(charsheet, post=request.POST)
-        sheet_valid = sheet_form.is_valid()
-        attribute_valid = attribute_formset.is_valid()
-        skill_valid = skill_formset.is_valid()
-        merit_valid = merit_formset.is_valid()
-        xplog_valid = xplog_formset.is_valid()
-        if sheet_valid and attribute_valid and skill_valid and merit_valid and xplog_valid:
-          sheet_form.save()
-          attribute_formset.save()
-          skill_formset.save()
-          merit_formset.save()
-          xplog_formset.save()
-          if 'return' in request.POST:
-            return redirect(list)
-          return redirect(charsheet.get_absolute_url())
-      else:
-        sheet_form = GeistCharacterSheetForm(instance=charsheet, user=request.user)          
-        attribute_formset = setup_attribute_form(charsheet)
-        skill_formset = setup_skill_form(charsheet)
-        merit_formset = setup_merit_form(charsheet)
-        xplog_formset = setup_xplog_form(charsheet)
-      
-      return render_to_response('character_manager/character_sheet.html', {
-        'charsheet' : charsheet,
-        'sheet_form' : sheet_form, 
-        'attribute_formset' : attribute_formset, 
-        'skill_formset' : skill_formset, 
-        'merit_formset' : merit_formset,
-        'xplog_formset' : xplog_formset,
-        'page_title' : 'New Character Sheet', 
-        'page_name' : 'charsheetform' }, 
-        context_instance=RequestContext(request))
-    except GeistCharacterSheet.DoesNotExist:
-      messages.error(request, 'That character sheet doesn\'t exist.')
-      return redirect(list)
-  else:
-    # A new sheet
-    if request.method == 'POST':
-      sheet_form = GeistCharacterSheetForm(request.POST, user=request.user)
-      if sheet_form.is_valid():
-        sheet = sheet_form.save(commit=False)
-        sheet.user = request.user
-        sheet.save()
-        if 'return' in request.POST:
-          return redirect(list)
-        return redirect(sheet.get_absolute_url())
-    else:
-      sheet_form = GeistCharacterSheetForm(user=request.user)        
-  return render_to_response('character_manager/character_sheet.html', { 'sheet_form' : sheet_form, 'page_title' : 'New Character Sheet', 'page_name' : 'charsheetform' }, context_instance=RequestContext(request))
+def character_list(request):  
+  return render_to_response('character_manager/partials/character-list.html',
+    context_instance=RequestContext(request))
 
-def delete(request, character):
-  character.is_active = False
-  character.save()
-  messages.info(request, 'The character has been deleted.')
-  return redirect(list)
-  
+@login_required
+def character_detail(request):  
+  return render_to_response('character_manager/partials/character-detail.html',
+    context_instance=RequestContext(request))
+    
 @login_required
 def merit_dots(request):
   if request.method == 'POST' and request.is_ajax():
@@ -149,3 +93,31 @@ def setup_xplog_form(charsheet, post=None):
     return XPLogFormSet(post, instance=charsheet.xp_log, prefix='xplog')
   else:
     return XPLogFormSet(instance=charsheet.xp_log, prefix='xplog')
+    
+class CharacterDetail(APIView):
+  """
+  Retrieve, update or delete a character instance.
+  """
+  def get_object(self, pk):
+    try:
+      return Character.objects.get(pk=pk)
+    except Character.DoesNotExist:
+      raise Http404
+
+  def get(self, request, pk, format=None):
+    character = self.get_object(pk)
+    serializer = CharacterSerializer(character)
+    return Response(serializer.data)
+
+  def put(self, request, pk, format=None):
+    character = self.get_object(pk)
+    serializer = CharacterSerializer(character, data=request.DATA)
+    if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+  def delete(self, request, pk, format=None):
+    character = self.get_object(pk)
+    character.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)

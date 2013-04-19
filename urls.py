@@ -1,32 +1,32 @@
 from django.conf.urls.defaults import *
-from views import character_sheet, list, merit_dots, trait_xp, delete
+from rest_framework.urlpatterns import format_suffix_patterns
+from character_manager import views
 
 urlpatterns = patterns(
   '',
-  url(r'list/$', 
-    view = list,
-    name = 'list'
-  ),
-  url(r'character\-sheet/$', 
-    view = character_sheet,
-    name = 'character_sheet_new'
-  ),
-  url(r'character\-sheet/(?P<sheet_id>[0-9]+)/$', 
-    view = character_sheet,
-    name = 'character_sheet_edit'
-  ),
-  url(r'character\-sheet/delete/$', 
-    view = delete,
-    name = 'character_sheet_delete'
+  url(r'characters/(?P<pk>[0-9]+)/$', 
+    view = views.CharacterDetail.as_view(),
   ),
   (r'^logout/$', 'django.contrib.auth.views.logout'),
-  (r'', include('django_openid_auth.urls')),
+  (r'', include('django_openid_auth.urls')),  
+  url(r'partials/character\-list.html$', 
+    view = views.character_list,
+  ),
+  url(r'partials/character\-detail.html$', 
+    view = views.character_detail,
+  ),
   url(r'merit\-dots/$', 
-    view = merit_dots,
+    view = views.merit_dots,
     name = 'merit_dots'
   ),
   url(r'trait\-xp/$', 
-    view = trait_xp,
+    view = views.trait_xp,
     name = 'trait_xp'
   ),
+  url(r'$', 
+    view = views.index,
+    name = 'character_sheet_index'
+  )
 )
+
+urlpatterns = format_suffix_patterns(urlpatterns)

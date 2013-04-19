@@ -24,20 +24,23 @@ class XpEntry(models.Model):
   details = models.TextField(blank=True)
   xp_log = models.ForeignKey(XpLog, editable=False)
   
-class CharacterSheet(models.Model):
-  name = models.CharField(max_length=100, default='New Sin-Eater')
+class Character(models.Model):
+  name = models.CharField(max_length=100, default='New Person')
   concept = models.CharField(max_length=400, blank=True)
   age = models.CharField(max_length=100, blank=True)
   dob = models.CharField(max_length=100, blank=True)
   virtue = models.IntegerField(choices=Game.virtue_options, blank=True, null=True)
   vice = models.IntegerField(choices=Game.vice_options, blank=True, null=True)
   mc_level_at_creation = models.IntegerField(blank=True, null=True)
+  
+class CharacterSheet(models.Model):  
   primary_character = models.BooleanField(blank=True)
   storyteller_name = models.CharField(max_length=100, blank=True)
   storyteller_email = models.EmailField(blank=True)
   coordinator_name = models.CharField(max_length=200, blank=True)
   coordinator_email = models.EmailField(blank=True)
   is_active = models.BooleanField(default=True)
+  character = models.OneToOneField(Character)
   xp_log = models.OneToOneField(XpLog)
   user = models.ForeignKey(User, editable=False)
   
