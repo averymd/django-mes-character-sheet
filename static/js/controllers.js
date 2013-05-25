@@ -4,21 +4,21 @@ function CharacterSheetListCtrl($scope, CharacterSheet) {
 }
 
 function CharacterSheetDetailCtrl($scope, $routeParams, $location, CharacterSheet, Faction, Subrace, Game) {
-  var getGameInformation = function() {
-    if (typeof ($scope.character.game_id) == 'undefined') {
-      $scope.character.game_id = 1;
-      $scope.character.game_name = 'geist';
+  var getGameInformation = function(returnedCharacter) {
+    if (typeof (returnedCharacter.game_id) == 'undefined') {
+      returnedCharacter.game_id = 1;
+      returnedCharacter.game_name = 'geist';
     }
-    $scope.factions = Faction.query({game_id: $scope.character.game_id});
-    $scope.subraces = Subrace.query({game_id: $scope.character.game_id});
-    $scope.game = Game.get({game_name: $scope.character.game_name, game_id: $scope.character.game_id});
+    $scope.factions = Faction.query({game_id: returnedCharacter.game_id});
+    $scope.subraces = Subrace.query({game_id: returnedCharacter.game_id});
+    $scope.game = Game.get({game_name: returnedCharacter.game_name, game_id: returnedCharacter.game_id});
   };
   if ($routeParams.id != 'new') {
-    $scope.character = CharacterSheet.getById($routeParams.id);
+    $scope.character = CharacterSheet.getById($routeParams.id, getGameInformation);
   } else {
-    $scope.character = CharacterSheet.create();
+    $scope.character = CharacterSheet.create(getGameInformation);
   }
-  getGameInformation();
+  //getGameInformation();
   
   $scope.vices = [
     { id: '1', name: 'Envy' },
@@ -50,6 +50,13 @@ function CharacterSheetDetailCtrl($scope, $routeParams, $location, CharacterShee
     $location.path('/sheets');
     //$scope.cancel();
   }
+  
+  $scope.availableDots = function(dotList) {
+    if (dotList === '')
+      return $scope.scale;
+    else
+      return dotList.split(',');
+  };
   
   var redirectToCharacterById = function(returnedCharacter) {
     if ($routeParams.id != returnedCharacter._id.$oid) {

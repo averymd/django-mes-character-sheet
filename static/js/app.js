@@ -1,6 +1,6 @@
 'use strict';
 
-var m = angular.module('characterSheet', ['characterSheetServices', 'gameServices']);
+var m = angular.module('characterSheet', ['characterSheetServices', 'gameServices', 'characterSheetDirectives']);
 m.config(['$routeProvider', function($routeProvider) {
   $routeProvider.
     when('/sheets', {templateUrl: 'partials/character-list.html',   controller: CharacterSheetListCtrl}).
