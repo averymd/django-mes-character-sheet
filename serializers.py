@@ -5,6 +5,11 @@ class FactionSerializer(serializers.ModelSerializer):
   class Meta:
     model = Faction
     fields = ('id', 'name')
+    
+class SubraceSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Subrace
+    fields = ('id', 'name')
 
 class TraitSerializer(serializers.ModelSerializer):
   class Meta:

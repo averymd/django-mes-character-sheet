@@ -3,7 +3,7 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from game_manager.models import Trait, Game, Geist, Faction, Subrace, Power
-from game_manager.serializers import FactionSerializer, GeistSerializer
+from game_manager.serializers import FactionSerializer, GeistSerializer, SubraceSerializer
 
 class FactionList(APIView):
   """
@@ -12,6 +12,15 @@ class FactionList(APIView):
   def get(self, request, game_id, format=None):
     factions = Faction.objects.filter(game__id=game_id)
     serializer = FactionSerializer(factions, many=True)
+    return Response(serializer.data)
+    
+class SubraceList(APIView):
+  """
+  List all subraces in a game.
+  """
+  def get(self, request, game_id, format=None):
+    subraces = Subrace.objects.filter(game__id=game_id)
+    serializer = SubraceSerializer(subraces, many=True)
     return Response(serializer.data)
     
 class GameDetail(APIView):
