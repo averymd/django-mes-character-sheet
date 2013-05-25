@@ -12,6 +12,8 @@ class SubraceSerializer(serializers.ModelSerializer):
     fields = ('id', 'name')
 
 class TraitSerializer(serializers.ModelSerializer):
+  category = serializers.ChoiceField(choices=Trait.CATEGORY_OPTIONS, default='friendly')
+  
   class Meta:
     model = Trait
     fields = ('id', 'name', 'category', 'use', 'specific_dots', 'trait_type', 'uses_simple_calculation', 'custom_xp_per_dot')

@@ -8,11 +8,11 @@ class TraitType(models.Model):
     return self.name
 
 class Trait(models.Model):
-  category_options = ((1, 'Mental'), (2, 'Physical'), (3, 'Social'))
+  CATEGORY_OPTIONS = ((1, 'Mental'), (2, 'Physical'), (3, 'Social'))
   use_options = ((1, 'Power'), (2, 'Finesse'), (3, 'Resistance'))
   
   name = models.CharField(max_length=100)
-  category = models.IntegerField(choices=category_options, blank=True, null=True)
+  category = models.IntegerField(choices=CATEGORY_OPTIONS, blank=True, null=True)
   use = models.IntegerField(choices=use_options, blank=True, null=True)
   specific_dots = models.CharField(max_length=10, blank=True)
   trait_type = models.ForeignKey(TraitType)
