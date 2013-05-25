@@ -42,4 +42,9 @@ angular.module('gameServices', ['ngResource']).
     return $resource('/game-manager/games/:game_name/:game_id\\/', {}, {
       query: { method: 'GET', params: { game_id: '1', game_name: 'geist' }, isArray: false }
     });
+  }).
+  factory('Subrace', function($resource){
+    return $resource('/game-manager/subraces/:game_id\\/', {}, {
+      query: { method: 'GET', params: { game_id: '1' }, isArray: true }
+    });
   });

@@ -3,7 +3,7 @@ function CharacterSheetListCtrl($scope, CharacterSheet) {
   $scope.orderProp = 'name';
 }
 
-function CharacterSheetDetailCtrl($scope, $routeParams, $location, CharacterSheet, Faction, Game) {
+function CharacterSheetDetailCtrl($scope, $routeParams, $location, CharacterSheet, Faction, Subrace, Game) {
   $scope.character = CharacterSheet.getById($routeParams.id);
   if (typeof ($scope.character.game_id) == 'undefined') {
     $scope.character.game_id = 1;
@@ -11,6 +11,7 @@ function CharacterSheetDetailCtrl($scope, $routeParams, $location, CharacterShee
   }
   
   $scope.factions = Faction.query({game_id: $scope.character.game_id});
+  $scope.subraces = Subrace.query({game_id: $scope.character.game_id});
   $scope.game = Game.get({game_name: $scope.character.game_name, game_id: $scope.character.game_id});
   $scope.vices = [
     { id: '1', name: 'Envy' },
