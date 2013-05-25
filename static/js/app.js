@@ -5,6 +5,7 @@ m.config(['$routeProvider', function($routeProvider) {
   $routeProvider.
     when('/sheets', {templateUrl: 'partials/character-list.html',   controller: CharacterSheetListCtrl}).
     when('/sheets/:id', {templateUrl: 'partials/character-detail.html', controller: CharacterSheetDetailCtrl}).
+    when('/sheets/new', {templateUrl: 'partials/character-detail.html', controller: CharacterSheetDetailCtrl}).
     otherwise({redirectTo: '/sheets'});
 }]);
   

@@ -6,7 +6,7 @@ angular.module('characterSheetServices', ['ngResource']).factory('CharacterSheet
   
   Sheet.getById = function (id, cb, errorcb) {
     return Sheet.get({id:id}, cb, errorcb);
-  };
+  }; 
   
   Sheet.prototype.update = function(cb) {
     return Sheet.update({id: this._id.$oid},
@@ -27,6 +27,13 @@ angular.module('characterSheetServices', ['ngResource']).factory('CharacterSheet
 
   Sheet.prototype.destroy = function(cb) {
     return Sheet.remove({id: this._id.$oid}, cb);
+  };  
+  
+  Sheet.create = function(cb) {
+    var character = angular.extend({}, this, this.prototype, {_id:undefined});
+    if (typeof (cb) === 'function')
+      cb(character);
+    return character;
   };
 
   return Sheet;

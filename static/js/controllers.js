@@ -4,15 +4,22 @@ function CharacterSheetListCtrl($scope, CharacterSheet) {
 }
 
 function CharacterSheetDetailCtrl($scope, $routeParams, $location, CharacterSheet, Faction, Subrace, Game) {
-  $scope.character = CharacterSheet.getById($routeParams.id);
-  if (typeof ($scope.character.game_id) == 'undefined') {
-    $scope.character.game_id = 1;
-    $scope.character.game_name = 'geist';
+  var getGameInformation = function() {
+    if (typeof ($scope.character.game_id) == 'undefined') {
+      $scope.character.game_id = 1;
+      $scope.character.game_name = 'geist';
+    }
+    $scope.factions = Faction.query({game_id: $scope.character.game_id});
+    $scope.subraces = Subrace.query({game_id: $scope.character.game_id});
+    $scope.game = Game.get({game_name: $scope.character.game_name, game_id: $scope.character.game_id});
+  };
+  if ($routeParams.id != 'new') {
+    $scope.character = CharacterSheet.getById($routeParams.id);
+  } else {
+    $scope.character = CharacterSheet.create();
   }
+  getGameInformation();
   
-  $scope.factions = Faction.query({game_id: $scope.character.game_id});
-  $scope.subraces = Subrace.query({game_id: $scope.character.game_id});
-  $scope.game = Game.get({game_name: $scope.character.game_name, game_id: $scope.character.game_id});
   $scope.vices = [
     { id: '1', name: 'Envy' },
     { id: '2', name: 'Gluttony' },
@@ -34,7 +41,7 @@ function CharacterSheetDetailCtrl($scope, $routeParams, $location, CharacterShee
   $scope.scale = [1,2,3,4,5];
   
   $scope.save = function() {
-    $scope.character.saveOrUpdate();
+    $scope.character.saveOrUpdate(redirectToCharacterById);    
     //$scope.cancel();
   }
   
@@ -43,6 +50,12 @@ function CharacterSheetDetailCtrl($scope, $routeParams, $location, CharacterShee
     $location.path('/sheets');
     //$scope.cancel();
   }
+  
+  var redirectToCharacterById = function(returnedCharacter) {
+    if ($routeParams.id != returnedCharacter._id.$oid) {
+      $location.path('/sheets/' + returnedCharacter._id.$oid);
+    }
+  };
 }
 
 //CharacterSheetDetailCtrl.$inject = ['$scope', '$routeParams', 'CharacterSheet'];
