@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from game_manager.models import Trait, Game, Geist, Faction, Subrace, Power
+from game_manager.models import Trait, Game, Geist, Faction, Subrace, Power, GEIST_XP_CATEGORY_OPTIONS
 
 class FactionSerializer(serializers.ModelSerializer):
   class Meta:
@@ -24,7 +24,8 @@ class GeistSerializer(serializers.ModelSerializer):
   keys = TraitSerializer(many=True)
   merits = TraitSerializer(many=True)
   skills = TraitSerializer(many=True)
+  xp_category_options = serializers.Field(source='XP_CATEGORY_OPTIONS')
   
   class Meta:
     model = Geist
-    fields = ('id', 'name', 'subrace_name', 'faction_name', 'energy_name', 'power_level_trait', 'keys', 'morality', 'merits', 'skills')
+    fields = ('id', 'name', 'subrace_name', 'faction_name', 'energy_name', 'power_level_trait', 'keys', 'morality', 'merits', 'skills', 'xp_category_options')

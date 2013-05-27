@@ -1,5 +1,19 @@
 from django.db import models
 
+GEIST_XP_CATEGORY_OPTIONS = ((1, 'Game Attendance'), 
+    (2, 'Attribute'), 
+    (3, 'Merit'), 
+    (4, 'Skill'),
+    (5, 'Skill Specialization'),
+    (6, 'Key'),
+    (7, 'Willpower'),
+    (8, 'Downtime'),
+    (9, 'Creation Attribute'),
+    (10, 'Creation Merit'),
+    (11, 'Creation Skill'),
+    (12, 'Creation Skill Specialization'),
+  )
+  
 class TraitType(models.Model):
   name = models.CharField(max_length=100)
   default_xp_cost_per_dot = models.IntegerField()
@@ -92,6 +106,19 @@ class Game(models.Model):
 
 class Geist(Game):
   keys = models.ManyToManyField(Trait, related_name='keys', limit_choices_to={'trait_type__name':'Key'})
+  XP_CATEGORY_OPTIONS = ((1, 'Game Attendance'), 
+    (2, 'Attribute'), 
+    (3, 'Merit'), 
+    (4, 'Skill'),
+    (5, 'Skill Specialization'),
+    (6, 'Key'),
+    (7, 'Willpower'),
+    (8, 'Downtime'),
+    (9, 'Creation Attribute'),
+    (10, 'Creation Merit'),
+    (11, 'Creation Skill'),
+    (12, 'Creation Skill Specialization'),
+  )
 
 class Subrace(models.Model):
   name = models.CharField(max_length=100)
