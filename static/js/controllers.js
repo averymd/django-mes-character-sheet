@@ -58,6 +58,42 @@ function CharacterSheetDetailCtrl($scope, $routeParams, $location, CharacterShee
       return dotList.split(',');
   };
   
+  $scope.cpChange = function(trait, charactersTrait, traitType) {
+    var description = charactersTrait.cp + ' CP on ' + trait.name;
+    var category = 0;
+    var isUpdate = false;
+    
+    for (var i = 0; i < $scope.game.xp_category_options.length; i++) {
+      if ($scope.game.xp_category_options[i][1].toLowerCase() == 'creation ' + traitType) {
+        category = $scope.game.xp_category_options[i][0];
+        break;
+      }
+    }
+    if (typeof ($scope.character.xp_logs) == 'undefined') {
+      $scope.character.xp_logs = [];
+    }
+    
+    for (var j = 0; j < $scope.character.xp_logs.length; j++) {
+      if ($scope.character.xp_logs[j].category == category && $scope.character.xp_logs[j].trait_id == trait.id) {
+        $scope.character.xp_logs[j].date = new Date();
+        $scope.character.xp_logs[j].xp_change = charactersTrait.cp;
+        $scope.character.xp_logs[j].details = description;
+        isUpdate = true;
+        break;
+      }
+    }
+    
+    if (!isUpdate) {
+      $scope.character.xp_logs.push({
+        date: new Date(),
+        category: category,
+        xp_change: charactersTrait.cp,
+        details: description,
+        trait_id: trait.id
+      });
+    }
+  }
+  
   var redirectToCharacterById = function(returnedCharacter) {
     if ($routeParams.id != returnedCharacter._id.$oid) {
       $location.path('/sheets/' + returnedCharacter._id.$oid);
