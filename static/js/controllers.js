@@ -40,22 +40,29 @@ function CharacterSheetDetailCtrl($scope, $routeParams, $location, CharacterShee
   ];
   $scope.scale = [1,2,3,4,5];
   
+  var redirectToCharacterById = function(returnedCharacter) {
+    if ($routeParams.id != returnedCharacter._id.$oid) {
+      $location.path('/sheets/' + returnedCharacter._id.$oid);
+    }
+  };
+  
   $scope.save = function() {
     $scope.character.saveOrUpdate(redirectToCharacterById);    
     //$scope.cancel();
-  }
+  };
   
   $scope.saveAndReturn = function() {
     $scope.character.saveOrUpdate();
     $location.path('/sheets');
     //$scope.cancel();
-  }
+  };
   
   $scope.availableDots = function(dotList) {
-    if (dotList === '')
+    if (dotList === '') {
       return $scope.scale;
-    else
+    } else {
       return dotList.split(',');
+    }
   };
   
   $scope.cpChange = function(trait, charactersTrait, traitType) {
@@ -91,12 +98,6 @@ function CharacterSheetDetailCtrl($scope, $routeParams, $location, CharacterShee
         details: description,
         trait_id: trait.id
       });
-    }
-  };
-  
-  var redirectToCharacterById = function(returnedCharacter) {
-    if ($routeParams.id != returnedCharacter._id.$oid) {
-      $location.path('/sheets/' + returnedCharacter._id.$oid);
     }
   };
 }

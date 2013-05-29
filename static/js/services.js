@@ -1,3 +1,5 @@
+/*globals angular */
+
 angular.module('characterSheetServices', ['ngResource']).factory('CharacterSheet', function($resource){
   var Sheet = $resource('https://api.mongolab.com/api/1/databases/devcharactermanager/collections/charactersheets/:id', 
     { apiKey:'0MYTa3INCIuUL9-VD-lrEoPPsuXgKBEP' },
@@ -31,8 +33,9 @@ angular.module('characterSheetServices', ['ngResource']).factory('CharacterSheet
   
   Sheet.create = function(cb) {
     var character = angular.extend({}, this, this.prototype, {_id:undefined, attributes:{}, skills:{}, merits:{}});
-    if (typeof (cb) === 'function')
+    if (typeof (cb) === 'function') {
       cb(character);
+    }
     return character;
   };
 
