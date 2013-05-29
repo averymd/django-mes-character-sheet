@@ -92,7 +92,7 @@ function CharacterSheetDetailCtrl($scope, $routeParams, $location, CharacterShee
         trait_id: trait.id
       });
     }
-  }
+  };
   
   var redirectToCharacterById = function(returnedCharacter) {
     if ($routeParams.id != returnedCharacter._id.$oid) {
