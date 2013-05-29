@@ -69,7 +69,7 @@ directive('xpSelector', function() {
           var description = xpCost + ' XP on ' + attrs.trait.name;
           var category = 0;
           
-          for (var i = 0; i < scope.game.xp_category_options.length; i++) {
+          for (i = 0; i < scope.game.xp_category_options.length; i++) {
             if (scope.game.xp_category_options[i][1].toLowerCase() == attrs.trait.trait_type.name.toLowerCase()) {
               category = scope.game.xp_category_options[i][0];
               break;
