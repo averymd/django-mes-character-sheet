@@ -24,8 +24,9 @@ class GeistSerializer(serializers.ModelSerializer):
   keys = TraitSerializer(many=True)
   merits = TraitSerializer(many=True)
   skills = TraitSerializer(many=True)
+  attributes = TraitSerializer(many=True)
   xp_category_options = serializers.Field(source='XP_CATEGORY_OPTIONS')
   
   class Meta:
     model = Geist
-    fields = ('id', 'name', 'subrace_name', 'faction_name', 'energy_name', 'power_level_trait', 'keys', 'morality', 'merits', 'skills', 'xp_category_options')
+    fields = ('id', 'name', 'subrace_name', 'faction_name', 'energy_name', 'power_level_trait', 'keys', 'morality', 'attributes', 'merits', 'skills', 'xp_category_options')
