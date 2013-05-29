@@ -30,7 +30,7 @@ angular.module('characterSheetServices', ['ngResource']).factory('CharacterSheet
   };  
   
   Sheet.create = function(cb) {
-    var character = angular.extend({}, this, this.prototype, {_id:undefined, skills:{}, merits:{}});
+    var character = angular.extend({}, this, this.prototype, {_id:undefined, attributes:{}, skills:{}, merits:{}});
     if (typeof (cb) === 'function')
       cb(character);
     return character;
