@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from game_manager.models import Trait, Game, Geist, Faction, Subrace, Power, GEIST_XP_CATEGORY_OPTIONS
+from game_manager.models import Trait, Game, Geist, Faction, Subrace, Power, GEIST_XP_CATEGORY_OPTIONS, TraitType
 
 class FactionSerializer(serializers.ModelSerializer):
   class Meta:
@@ -10,14 +10,20 @@ class SubraceSerializer(serializers.ModelSerializer):
   class Meta:
     model = Subrace
     fields = ('id', 'name')
+    
+class TraitTypeSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = TraitType
+    fields = ('id', 'name', 'default_xp_cost_per_dot')
 
 class TraitSerializer(serializers.ModelSerializer):
   category = serializers.ChoiceField(choices=Trait.CATEGORY_OPTIONS, default='friendly')
+  trait_type = TraitTypeSerializer()
   
   class Meta:
     model = Trait
     fields = ('id', 'name', 'category', 'use', 'specific_dots', 'trait_type', 'uses_simple_calculation', 'custom_xp_per_dot')
-  
+    
 class GeistSerializer(serializers.ModelSerializer):
   morality = serializers.RelatedField()
   power_level_trait = TraitSerializer()
