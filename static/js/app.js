@@ -1,3 +1,4 @@
+/*globals angular, CharacterSheetListCtrl, CharacterSheetDetailCtrl*/
 'use strict';
 
 var m = angular.module('characterSheet', ['characterSheetServices', 'gameServices', 'characterSheetDirectives']);
