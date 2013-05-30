@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import Sum
 from datetime import datetime
 from django.contrib.auth.models import User
-from game_manager.models import Trait, Game, Geist, Faction, Subrace
+from game_manager.models import Trait, Game, Faction, Subrace
 from math import fabs
     
 class XpLog(models.Model):

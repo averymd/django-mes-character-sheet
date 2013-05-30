@@ -246,7 +246,7 @@ class Deletion(TestCase):
 
   def test_deletion_hides_sheet(self):
     """Case 319"""
-    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     post_data = {
       'delete-character': u'Delete character'
     }
@@ -323,7 +323,7 @@ class XpLogging(TestCase):
     
   def test_xplog_xp_spent_for_single_dot_skill_purchase_calculates_correctly(self):
     """Case 316"""
-    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     trait_selection = {
       'trait-id': u'%s' % Trait.objects.get(name='Subterfuge').id,
       'new-level': u'1', # Currently level 0
