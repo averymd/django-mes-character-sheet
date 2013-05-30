@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from game_manager.models import Trait, Game, Geist, Faction, Subrace, Power, GEIST_XP_CATEGORY_OPTIONS, TraitType
+from game_manager.models import Trait, Geist, Faction, Subrace, TraitType
 
 class FactionSerializer(serializers.ModelSerializer):
   class Meta:

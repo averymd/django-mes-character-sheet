@@ -1,8 +1,7 @@
 from rest_framework import status
-from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from game_manager.models import Trait, Game, Geist, Faction, Subrace, Power
+from game_manager.models import Geist, Faction, Subrace
 from game_manager.serializers import FactionSerializer, GeistSerializer, SubraceSerializer
 
 class FactionList(APIView):
