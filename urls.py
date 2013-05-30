@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns
 from rest_framework.urlpatterns import format_suffix_patterns
 from character_manager import views
 
