@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns, url, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from game_manager import views
 
