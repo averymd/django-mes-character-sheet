@@ -2,9 +2,9 @@ from django.test import TestCase
 from django.test.client import Client
 from django.contrib.auth.models import User
 from datetime import datetime
-from models import GeistCharacterSheet, ChosenTrait
+from models import GeistCharacterSheet
 from game_manager.models import Trait
-from django.db.models import Count
+#from django.db.models import Count
 import json
 
 class SheetCreation(TestCase):
@@ -139,19 +139,19 @@ class SheetEditing(TestCase):
   def test_character_info_can_be_changed(self):
     """Case 312"""
     sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
-    response = self.c.post(sheet.get_absolute_url(), self.post_data, follow=True)
+    self.c.post(sheet.get_absolute_url(), self.post_data, follow=True)
     self.assertEqual(GeistCharacterSheet.objects.get(pk=1).concept, u'Sad clown')
     
   def test_attributes_can_be_changed(self):
     """Case 312"""
     sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
-    response = self.c.post(sheet.get_absolute_url(), self.post_data, follow=True)
+    self.c.post(sheet.get_absolute_url(), self.post_data, follow=True)
     self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.get(trait__name='Intelligence').level, 2)
     
   def test_skills_can_be_changed(self):
     """Case 312"""
     sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
-    response = self.c.post(sheet.get_absolute_url(), self.post_data)
+    self.c.post(sheet.get_absolute_url(), self.post_data)
     self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.get(trait__name='Academics').level, 2)
     self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.get(trait__name='Academics').specializations, u'Research')
     self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.get(trait__name='Investigation').level, 1)
@@ -159,13 +159,13 @@ class SheetEditing(TestCase):
   def test_merits_can_be_added(self):
     """Case 312"""
     sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
-    response = self.c.post(sheet.get_absolute_url(), self.post_data, follow=True)
+    self.c.post(sheet.get_absolute_url(), self.post_data, follow=True)
     self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.get(trait__name='Common Sense').level, 2)
     self.assertEqual(GeistCharacterSheet.objects.get(pk=1).chosentrait_set.get(trait__name='Common Sense').specializations, u'Sometimes')
     
   def test_merit_dots_updated_when_single_dot_only_merit_selected(self):
     """Case 313"""
-    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     merit_selection = {
       'merit-id': u'11'
     }
@@ -174,7 +174,7 @@ class SheetEditing(TestCase):
     
   def test_merit_dots_updated_when_multi_dot_merit_selected(self):
     """Case 313"""
-    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     merit_selection = {
       'merit-id': u'26'
     }
@@ -183,7 +183,7 @@ class SheetEditing(TestCase):
   
   def test_merit_dot_update_fail_when_item_not_a_merit(self):
     """Case 313"""
-    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     # An attribute
     merit_selection = {
       'merit-id': u'5'
@@ -192,7 +192,7 @@ class SheetEditing(TestCase):
     
   def test_merit_dot_update_fail_when_item_not_a_number(self):
     """Case 313"""
-    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     merit_selection = {
       'merit-id': u'deuce'
     }
@@ -227,7 +227,7 @@ class Deletion(TestCase):
     
   def test_deletion_causes_redirect(self):
     """Case 319"""
-    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     post_data = {
       'delete-character': u'Delete character'
     }
@@ -240,7 +240,7 @@ class Deletion(TestCase):
     post_data = {
       'delete-character': u'Delete character'
     }
-    response = self.c.post('/character-manager/character-sheet/1/', post_data, follow=True)
+    self.c.post('/character-manager/character-sheet/1/', post_data, follow=True)
     sheet = GeistCharacterSheet.objects.get(name='Happy SE', user=self.user)
     self.assertEqual(sheet.is_active, False)
 
@@ -251,7 +251,7 @@ class Deletion(TestCase):
       'delete-character': u'Delete character'
     }
     response = self.c.post('/character-manager/character-sheet/1/', post_data, follow=True)
-    sheet = GeistCharacterSheet.objects.get(name='Happy SE', user=self.user)
+    GeistCharacterSheet.objects.get(name='Happy SE', user=self.user)
     self.assertNotContains(response, 'Happy SE')
     
   
@@ -287,7 +287,7 @@ class XpLogging(TestCase):
     
   def test_xplog_xp_spent_for_cumulative_cost_purchase_calculates_correctly(self):
     """Case 316"""
-    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     trait_selection = {
       'trait-id': u'%s' % Trait.objects.get(name='Intelligence').id,
       'new-level': u'4', # Currently level 1
@@ -299,7 +299,7 @@ class XpLogging(TestCase):
     
   def test_xplog_xp_spent_for_simple_cost_purchase_calculates_correctly(self):
     """Case 316"""
-    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     trait_selection = {
       'trait-id': u'%s' % Trait.objects.get(name='Striking Looks').id,
       'new-level': u'4', # Currently level 0
@@ -311,7 +311,7 @@ class XpLogging(TestCase):
     
   def test_xplog_xp_spent_for_skill_purchase_calculates_correctly(self):
     """Case 316"""
-    sheet = GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
+    GeistCharacterSheet.objects.create(name='Happy SE', user=self.user)
     trait_selection = {
       'trait-id': u'%s' % Trait.objects.get(name='Subterfuge').id,
       'new-level': u'4', # Currently level 0

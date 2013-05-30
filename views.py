@@ -1,18 +1,19 @@
-from django.shortcuts import redirect, get_object_or_404, render_to_response
-from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render_to_response
+#from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, Http404, HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
-from django.forms.models import modelformset_factory, inlineformset_factory
+from django.forms.models import inlineformset_factory
 from django.template import RequestContext
 from models import GeistCharacterSheet, ChosenTrait, XpEntry, XpLog, Character
 from game_manager.models import Trait
-from forms import GeistCharacterSheetForm, ChosenAttributeSkillForm, ChosenSkillForm, ChosenMeritForm, XpEntryForm
+from forms import ChosenAttributeSkillForm, ChosenSkillForm, ChosenMeritForm, XpEntryForm
 from character_manager.serializers import CharacterSerializer
-from django.conf import settings
-from django.contrib import messages
+#from django.conf import settings
+#from django.contrib import messages
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+import json
 
 @login_required
 def index(request):  

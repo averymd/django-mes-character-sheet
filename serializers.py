@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from character_manager.models import Character, XpEntry, XpLog
-from game_manager.models import Trait, Game, Geist, Faction, Subrace
+from character_manager.models import Character
+#from game_manager.models import Trait, Game, Geist, Faction, Subrace
 
 class CharacterSerializer(serializers.ModelSerializer):
   class Meta:

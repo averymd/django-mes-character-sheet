@@ -1,7 +1,7 @@
 from django.utils.safestring import mark_safe
 from django.utils.encoding import force_unicode
 from django import forms
-from game_manager.models import Trait
+#from game_manager.models import Trait
 
 class DotRenderer(forms.widgets.RadioFieldRenderer):
     """ Modifies some of the Radio buttons to be disabled in HTML,
