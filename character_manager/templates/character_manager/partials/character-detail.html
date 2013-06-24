@@ -1,0 +1,112 @@
+<form action="" method="post">
+  {% csrf_token %}
+  <input type="hidden" id="id" name="id" ng-model="character._id.$oid" />
+  <input type="hidden" id="game_id" name="game_id" ng-model="character.game_id" />
+  <fieldset id="basic_info">
+    <legend>Basic Character Info</legend>      
+      <label for="name">Name:</label> <input type="text" id="name" name="name" ng-model="character.name" />
+      <label for="concept">Concept:</label> <input type="text" id="concept" name="concept" ng-model="character.concept" />
+      <label for="age">Age:</label> <input type="number" id="age" name="age" ng-model="character.age" />
+      <label for="dob">Date of birth:</label> <input type="text" id="dob" name="dob" ng-model="character.dob" />
+      <label for="virtue">Virtue:</label> <select id="virtue" name="virtue" ng-model="character.virtue" ng-options="virtue.id as virtue.name for virtue in virtues"></select>
+      <label for="vice">Vice:</label> <select id="vice" name="vice" ng-model="character.vice" ng-options="vice.id as vice.name for vice in vices"></select>
+      <label for="faction">(( game.faction_name ))</label> <select id="faction" name="faction" ng-model="character.faction" ng-options="faction.id as faction.name for faction in factions"></select>
+      <label for="subrace">(( game.subrace_name ))</label> <select id="subrace" name="subrace" ng-model="character.subrace" ng-options="subrace.id as subrace.name for subrace in subraces"></select>
+      
+  </fieldset>
+  
+  <fieldset id="basic_domain_info">
+    <legend>Basic Domain Info</legend>
+      
+      <label for="storyteller_name">Storyteller's name:</label> <input type="text" id="storyteller_name" name="storyteller_name" ng-model="character.storyteller_name" />
+      <label for="storyteller_email">Storyteller's email:</label> <input type="email" id="storyteller_email" name="storyteller_email" ng-model="character.storyteller_email" />
+      <label for="coordinator_name">Coordinator's name:</label> <input type="text" id="coordinator_name" name="coordinator_name" ng-model="character.coordinator_name" />
+      <label for="coordinator_email">Coordinator's email:</label> <input type="email" id="coordinator_email" name="coordinator_email" ng-model="character.coordinator_email" />
+      <label for="primary_character">Is this your primary character?: <input type="checkbox" id="primary_character" name="primary_character" ng-model="character.is_primary_character" /></label>
+      <label for="mc_level_at_creation">MC at character creation:</label> <input type="number" id="mc_level_at_creation" name="mc_level_at_creation" ng-model="character.mc_level_at_creation" />
+      <label for="current_mc_level">Current MC:</label> <input type="number" id="current_mc_level" name="current_mc_level" ng-model="character.current_mc_level" />      
+  </fieldset>
+  
+  <fieldset id="attributes">
+    <legend>Attributes</legend>
+    <div class="attribute_wrapper">
+      <ul>
+        <li ng-repeat="attribute in game.attributes">
+          ((attribute.name)):
+          <label ensure-existence="character.attributes[attribute.id]" class="radio inline">CP</label>
+          <select ng-model="character.attributes[attribute.id].cp" ng-options="num for num in scale" ng-change="cpChange(attribute, character.attributes[attribute.id], 'attribute')" class="input-mini"></select>          
+          
+          <label class="radio inline">XP</label>
+          <select ng-model="character.attributes[attribute.id].xp" ng-options="num for num in scale" xp-selector trait="((attribute))" class="input-mini"></select>
+          
+          Total dots: (( character.attributes[attribute.id].xp + character.attributes[attribute.id].cp ))
+      </ul>
+    </div>
+  </fieldset>
+  
+  <fieldset id="skills">
+    <legend>Skills</legend>
+    <div class="skill_wrapper">
+      <ul>
+        <li ng-repeat="skill in game.skills">
+          ((skill.name)):
+          <label ensure-existence="character.skills[skill.id]" class="radio inline">CP</label>
+          <select ng-model="character.skills[skill.id].cp" ng-options="num for num in scale" ng-change="cpChange(skill, character.skills[skill.id], 'skill')" class="input-mini"></select>          
+          
+          <label class="radio inline">XP</label>
+          <select ng-model="character.skills[skill.id].xp" ng-options="num for num in scale" class="input-mini"></select>
+          
+          Total dots: (( character.skills[skill.id].xp + character.skills[skill.id].cp ))
+      </ul>
+      
+    </div>
+  </fieldset>
+
+  <fieldset id="merits">
+    <legend>Merits</legend>
+      <div class="merit_wrapper">
+        <ul>
+          <li ng-repeat="merit in game.merits">
+            ((merit.name)):
+            <label ensure-existence="$parent.character.merits[merit.id]" class="radio inline">CP</label>
+            <select ng-model="$parent.character.merits[merit.id].cp" ng-options="num for num in availableDots(merit.specific_dots)" ng-change="cpChange(merit, character.merits[merit.id], 'merit')" class="input-mini"></select>          
+            
+            <label class="radio inline">XP</label>
+            <select ng-model="$parent.character.merits[merit.id].xp" ng-options="num for num in availableDots(merit.specific_dots)" class="input-mini"></select>
+            
+            Total dots: (( $parent.character.merits[merit.id].cp + $parent.character.merits[merit.id].xp ))
+        </ul>
+      </div>
+  </fieldset>
+  
+  <table summary="The experience point log of the character." id="xplog">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Category</th>
+        <th>XP Change</th>
+        <th>Details</th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="log in character.xp_logs">
+        <td><input type="datetime" ng-model="log.date" class="input-small" /></td>
+        <td><select ng-model="log.category" ng-options="category[0] as category[1] for category in game.xp_category_options"></select></td>
+        <td><input type="text" ng-model="log.xp_change" class="input-mini" /></td>
+        <td><textarea ng-model="log.details"></textarea></td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr id="summary">
+        <th>XP Earned: <span id="xpearned">(( xp_earned() ))</span></th>
+        <th>XP Spent: <span id="xpspent">(( xp_spent() ))</span></th>
+        <th>XP Remaining: <span id="xpremaining">(( xp_remaining() ))</span></th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+      </tr>
+    </tfoot>
+  </table>
+  
+  <button ng-click="save()">Save</button> <button ng-click="saveAndReturn()">Save and return</button>
+</form>

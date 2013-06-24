@@ -1,0 +1,4 @@
+include README.md
+recursive-include character_manager/static *
+recursive-include character_manager/templates *
+recursive-include game_manager/fixtures *
