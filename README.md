@@ -7,6 +7,8 @@ We're working on an online version of this system.
 
 It's not ready to be installed or used yet, SO DON'T, unless you want to contribute.
 
+The apps require Python 1.3.1, the Django REST framework, and python-openid.
+
 Quick start
 -----------
 
