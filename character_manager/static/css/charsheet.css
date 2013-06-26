@@ -1,0 +1,33 @@
+#sheet .dl-horizontal dt
+{
+	width: 100px;
+}
+
+#sheet .dl-horizontal dd
+{
+	margin-left: 105px;
+}
+
+#sheet .dl-horizontal input[type="checkbox"]
+{
+	display: none;
+}
+
+#sheet .dl-horizontal input[type="checkbox"] + label
+{
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	background: url('/static/img/dots.png') left top no-repeat;
+}
+
+#sheet .dl-horizontal input[type="checkbox"]:checked + label
+{
+	background-position: -24px top;
+}
+
+#sheet h3,
+#sheet h4
+{
+	text-align: center;
+}

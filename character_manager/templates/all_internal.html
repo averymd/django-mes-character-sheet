@@ -1,0 +1,33 @@
+{% extends "bare_bones.html" %}
+
+{% block content %}
+  <aside>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/ghosts/">World of Darkness Ghost Sheet</a></li>
+        <li><a href="{% url d20_spell_lists %}">d20 SRD Spell Lists</a></li>
+        <li class="last"><a href="/about/">About</a></li>
+      </ul>
+    </nav>
+    <div id="social-media">
+      <header>
+        <h3>Share</h3>
+      </header>
+      <ul>
+        <li><a href="http://delicious.com/post?url={{ long_url }}&amp;title={% get_page_title %}"><img src="{{ MEDIA_URL }}img/delicious.png"></a></li>
+        <li><a href="http://digg.com/submit?url={{ long_url }}"><img src="{{ MEDIA_URL }}img/diggbold.png"></a></li>
+        <li><a href="mailto:?subject={% get_page_title %}&amp;body={{ sharing_url }}"><img src="{{ MEDIA_URL }}img/email2.png"></a></li>
+        <li><a href="http://www.stumbleupon.com/submit?url={{ long_url }}&amp;title={% get_page_title %}"><img src="{{ MEDIA_URL }}img/stumbleupon.png"></a></li>
+        <li><a href="http://feeds.feedburner.com/irrsinndotnetlarp" title="The Charon Sheet RSS feed"><img src="{{ MEDIA_URL }}img/rss.png"></a></li>
+        <li><a href="http://twitter.com/home?status={% get_page_title %} - {{ sharing_url }}" title="Share to Twitter"><img src="{{ MEDIA_URL }}img/twitterbold.png"></a></li>
+        <li><a href="http://www.facebook.com/sharer.php?u={{ sharing_url }}&amp;t={% get_page_title %}" title="Share to Facebook"><img src="{{ MEDIA_URL }}img/facebook.png"></a></li>
+        <li><a href="http://www.reddit.com/submit?url={{ long_url }}"><img src="{{ MEDIA_URL }}img/reddit.png"></a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <section>
+    {% block maincontent %}{% endblock %}
+  </section>
+{% endblock %}

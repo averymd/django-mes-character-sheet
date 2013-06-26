@@ -1,0 +1,100 @@
+{% extends "bare_bones.html" %}
+
+{% block html_extras %}ng-app="characterSheet"{% endblock %}
+{% block title %}The Charon Sheet - {{ page_title }}{% endblock %}
+{% block headertitle %}{{ page_title }}{% endblock %}
+{% block pageclass %}{{ page_name }}{% endblock %}
+{% block css %}<link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css"><link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-responsive.css"><link rel="stylesheet" href="{{ STATIC_URL }}css/charsheet.css">{% endblock %}
+{% block bottomjavascript %}<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
+<script src="{{ STATIC_URL }}js/angular-resource.js"></script>
+<script src="{{ STATIC_URL }}js/directives.js"></script>
+<script src="{{ STATIC_URL }}js/services.js"></script>
+<script src="{{ STATIC_URL }}js/app.js"></script>
+<script src="{{ STATIC_URL }}js/controllers.js"></script>{% endblock %}
+
+{% block content %}
+<div id="sheet">
+  <div id="basic-info" class="row">
+		<dl id="identifiers" class="span4 dl-horizontal">
+			<dt>Name</dt>
+				<dd>Archibald Fortinbras Barrayan</dd>
+			<dt>Geist</dt>
+		</dl>
+		<dl id="personality" class="span4 dl-horizontal">
+			<dt>Virtue</dt>
+			<dt>Vice</dt>
+			<dt>Concept</dt>
+		</dl>
+		<dl id="demographics" class="span4 dl-horizontal">
+			<dt>Archetype</dt>
+			<dt>Threshold</dt>
+			<dt>Krewe</dt>
+		</dl>
+  </div>
+  <section id="attributes">
+  	<header class="row">
+  		<h3 class="span12">Attributes</h3>
+    </header>
+  	<div class="row">
+			<section class="span4">
+				<h4>Mental</h4>
+		  	<dl id="mental-attributes" class="dl-horizontal">
+					<dt>Intelligence</dt>
+						<dd><input type="checkbox" id="int-attr-1"/><label class="dot" for="int-attr-1"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
+					<dt>Wits</dt>
+						<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
+					<dt>Resolve</dt>
+						<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
+				</dl>
+			</section>
+			<section class="span4">
+				<h4>Physical</h4>
+				<dl id="physical-attributes" class="dl-horizontal">
+					<dt>Strength</dt>
+						<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
+					<dt>Dexterity</dt>
+						<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
+					<dt>Stamina</dt>
+						<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
+				</dl>
+			</section>
+			<section class="span4">
+				<h4>Social</h4>
+				<dl id="social-attributes" class="dl-horizontal">
+					<dt>Presence</dt>
+						<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
+					<dt>Manipulation</dt>
+						<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
+					<dt>Composure</dt>
+						<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
+				</dl>
+			</section>
+		</div>
+  </section>
+  <section id="traits-body" class="row">
+		<section id="skills" class="span4">
+			<h3>Skills</h3>
+			<h4>Mental</h4>
+  		<dl id="mental-skills" class="dl-horizontal">
+  			<dt>Academics</dt>
+					<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
+				<dt>Computer</dt>
+					<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
+				<dt>Crafts</dt>
+					<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
+				<dt>Investigation</dt>
+					<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
+				<dt>Medicine</dt>
+					<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
+				<dt>Occult</dt>
+					<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
+				<dt>Politics</dt>
+					<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
+				<dt>Science</dt>
+					<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
+		</dl>
+		</section>
+  </section>
+</div>
+  
+{% endblock %}

@@ -19,3 +19,8 @@ def character_list(request):
 def character_detail(request):  
   return render_to_response('character_manager/partials/character-detail.html',
     context_instance=RequestContext(request))
+	
+@login_required
+def tabletop(request):
+  return render_to_response('tabletop.html',
+    context_instance=RequestContext(request))

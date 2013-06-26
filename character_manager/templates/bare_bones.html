@@ -1,0 +1,78 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title>{% block title %}The Charon Sheet{% endblock %}</title>
+	<meta name="description" content="Download a d20 SRD Spell List manager or create and save World of Darkness ghost character sheets.">
+	<meta name="author" content="Melissa Avery-Weir">
+  <meta name="keywords" content="dungeons and dragons, d&amp;d, srd, 3.5e, spell lists, world of darkness, camarilla, character sheets, charsheet, larp, live-action role-playing, rpg, midnight dance, ghosts, minds's eye theater" />
+
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+  
+	<link rel="stylesheet" href="{{ MEDIA_URL }}css/style.css">
+  {% block css %}{% endblock %}
+  
+  <script src="{{ MEDIA_URL }}js/libs/yepnope.1.5.3-min.js"></script>
+  <script src="{{ MEDIA_URL }}js/libs/modernizr-2.0.min.js"></script>
+  <script src="{{ MEDIA_URL }}js/libs/respond.min.js"></script>
+  <script src="{{ MEDIA_URL }}js/libs/Class.create.js"></script>  
+  {% block javascript %}{% endblock %}
+
+	<meta name="google-site-verification" content="xICpJHLc9lKiE0W3TvCZ8IWkwQbezQnNK0J0hxKF72E" />
+</head>
+
+<body class="wrapper {% block pageclass %}{% endblock %}">
+  {% block header %}
+	<div id="header-container" class="wrapper">
+		<header>
+			<h1 id="title">The Charon Sheet</h1>
+			<h2 id="pagetitle">{% block headertitle %}The Charon Sheet{% endblock %}</h2>
+		</header>
+	</div>
+  {% endblock %}
+  <div id="main" class="wrapper">
+		
+		{% block content %}{% endblock %}
+	</div>
+	<div id="footer-container" class="wrapper">
+		<footer>
+			{% block footer %}      
+      <p><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">The Charon Sheet</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://thecharonsheet.com" property="cc:attributionName" rel="cc:attributionURL">Melissa Avery-Weir</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.</p>
+      
+      <p>Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://white-wolf.com" rel="dct:source">white-wolf.com</a>. World of Darkness, Geist, Camarilla, and Mind's Eye Theater are all property of White Wolf. Mind's Eye Society is a registered trademark of Mind's Eye Society. Logo artwork by <a href="http://ludusnovus.net">Gregory Avery-Weir</a> of <a href="http://futureproofgames.com">Future Proof Games</a>.</p>{% endblock %}
+		</footer>
+  </div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="{{ MEDIA_URL }}js/libs/jquery-1.6.2.min.js"><\/script>')</script>
+
+  <!-- scripts concatenated and minified via ant build script-->
+  <script src="{{ MEDIA_URL }}js/plugins.js"></script>
+  <script src="{{ MEDIA_URL }}js/script.js"></script>
+  <script src="{{ MEDIA_URL }}js/ghosts.js"></script>
+  <!-- end scripts-->
+  {% block bottomjavascript %}{% endblock %}
+<!--[if lt IE 7 ]>
+	<script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.2/CFInstall.min.js"></script>
+	<script>window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})</script>
+<![endif]-->
+
+  <!-- Piwik --> 
+  <script type="text/javascript">
+    var pkBaseURL = (("https:" == document.location.protocol) ? "https://irrsinn.net/piwik/" : "http://irrsinn.net/piwik/");
+    document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script><script type="text/javascript">
+    try {
+      var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 2);
+      piwikTracker.trackPageView();
+      piwikTracker.enableLinkTracking();
+    } catch( err ) {}
+  </script><noscript><p><img src="http://irrsinn.net/piwik/piwik.php?idsite=2" style="border:0" alt="" /></p></noscript>
+  <!-- End Piwik Tracking Code -->
+
+</body>
+</html>

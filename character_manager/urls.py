@@ -12,10 +12,13 @@ urlpatterns = patterns(
   url(r'partials/character\-detail.html$', 
     view = views.character_detail,
   ),
+  url(r'tabletop$',
+	view = views.tabletop,
+  ),
   url(r'$', 
     view = views.index,
     name = 'character_sheet_index'
-  )
+  ),
 )
 
 urlpatterns = format_suffix_patterns(urlpatterns)
