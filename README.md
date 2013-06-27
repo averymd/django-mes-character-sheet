@@ -1,6 +1,8 @@
 Django MES Character Sheet
 ===
 
+[![Build Status](https://travis-ci.org/averymd/django-mes-character-sheet.png?branch=feature/geistsheet)](https://travis-ci.org/averymd/django-mes-character-sheet)
+
 MES is the Mind's Eye Society, a group of folks who live action role-play World of Darkness games. This group has been using Excel character sheets for managing characters and XP logs.
 
 We're working on an online version of this system.
@@ -31,7 +33,7 @@ Quick start
   url(r'^character\-manager/', include('character_manager.urls')),
   url(r'^game\-manager/', include('game_manager.urls')),
 
-4. Run `python manage.py syncdb` and `python manage.py migratedb` to create the polls models.
+4. Run `python manage.py syncdb` and `python manage.py migratedb` to create the game manager models.
 
 5. Start the development server and visit http://127.0.0.1:8000/admin/
    to create a game (you'll need the Admin app enabled).
