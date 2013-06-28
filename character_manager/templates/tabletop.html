@@ -5,12 +5,9 @@
 {% block headertitle %}{{ page_title }}{% endblock %}
 {% block pageclass %}{{ page_name }}{% endblock %}
 {% block css %}<link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css"><link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-responsive.css"><link rel="stylesheet" href="{{ STATIC_URL }}css/charsheet.css">{% endblock %}
-{% block bottomjavascript %}<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
-<script src="{{ STATIC_URL }}js/angular-resource.js"></script>
-<script src="{{ STATIC_URL }}js/directives.js"></script>
-<script src="{{ STATIC_URL }}js/services.js"></script>
-<script src="{{ STATIC_URL }}js/app.js"></script>
-<script src="{{ STATIC_URL }}js/controllers.js"></script>{% endblock %}
+{% block bottomjavascript %}
+<script src="{{ STATIC_URL }}js/libs/bootstrap.min.js"></script>
+{% endblock %}
 
 {% block content %}
 <div id="sheet">
@@ -36,37 +33,49 @@
   		<h3 class="span12">Attributes</h3>
     </header>
   	<div class="row">
-			<section class="span4">
+			<section id="mental-attributes" class="span4">
 				<h4>Mental</h4>
-		  	<dl id="mental-attributes" class="dl-horizontal">
-					<dt>Intelligence</dt>
-						<dd><input type="checkbox" id="int-attr-1"/><label class="dot" for="int-attr-1"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
-					<dt>Wits</dt>
-						<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
-					<dt>Resolve</dt>
-						<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
+		  	<dl class="trait">
+	  			<dt>Intelligence</dt>
+	  			<dd class="dots"><input type="checkbox" id="int-attr-1"/><label for="int-attr-1"></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+				</dl>
+				<dl class="trait">
+	  			<dt>Wits</dt>
+	  			<dd class="dots"><input type="checkbox"/><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+				</dl>
+				<dl class="trait">
+	  			<dt>Resolve</dt>
+	  			<dd class="dots"><input type="checkbox"/><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
 				</dl>
 			</section>
 			<section class="span4">
 				<h4>Physical</h4>
-				<dl id="physical-attributes" class="dl-horizontal">
-					<dt>Strength</dt>
-						<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
-					<dt>Dexterity</dt>
-						<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
-					<dt>Stamina</dt>
-						<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
+				<dl class="trait">
+	  			<dt>Strength</dt>
+	  			<dd class="dots"><input type="checkbox"/><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+				</dl>
+				<dl class="trait">
+	  			<dt>Dexterity</dt>
+	  			<dd class="dots"><input type="checkbox"/><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+				</dl>
+				<dl class="trait">
+	  			<dt>Stamina</dt>
+	  			<dd class="dots"><input type="checkbox"/><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
 				</dl>
 			</section>
 			<section class="span4">
 				<h4>Social</h4>
-				<dl id="social-attributes" class="dl-horizontal">
-					<dt>Presence</dt>
-						<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
-					<dt>Manipulation</dt>
-						<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
-					<dt>Composure</dt>
-						<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
+				<dl class="trait">
+	  			<dt>Presence</dt>
+	  			<dd class="dots"><input type="checkbox"/><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+				</dl>
+				<dl class="trait">
+	  			<dt>Manipulation</dt>
+	  			<dd class="dots"><input type="checkbox"/><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+				</dl>
+				<dl class="trait">
+	  			<dt>Composure</dt>
+	  			<dd class="dots"><input type="checkbox"/><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
 				</dl>
 			</section>
 		</div>
@@ -74,26 +83,305 @@
   <section id="traits-body" class="row">
 		<section id="skills" class="span4">
 			<h3>Skills</h3>
+			
 			<h4>Mental</h4>
-  		<dl id="mental-skills" class="dl-horizontal">
-  			<dt>Academics</dt>
-					<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
-				<dt>Computer</dt>
-					<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
-				<dt>Crafts</dt>
-					<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
-				<dt>Investigation</dt>
-					<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
-				<dt>Medicine</dt>
-					<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
-				<dt>Occult</dt>
-					<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
-				<dt>Politics</dt>
-					<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
-				<dt>Science</dt>
-					<dd><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label><input type="checkbox" /><label class="dot"></label></dd>
-		</dl>
+				<section id="mental-skills" class="incomplete">
+					<header>
+						<span class="lead">6 CP Left</span>
+						<fieldset class="cp-choice">
+							<label>Spend CP <input type="radio" name="mental-skills-spend" id="mental-skills-spend-cp" value="cp" checked></label>
+							<label>Spend XP <input type="radio" name="mental-skills-spend" id="mental-skills-spend-xp" value="xp"></label>
+						</fieldset>
+						<button class="close">&times;</button>
+					</header>
+					<dl class="trait">
+		  			<dt>Academics</dt>
+		  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+		  			<dd class="notes"></dd>
+					</dl>
+					<dl class="trait">
+		  			<dt>Computer</dt>
+		  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+		  			<dd class="notes"></dd>
+					</dl>
+					<dl class="trait">
+		  			<dt>Crafts</dt>
+		  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+		  			<dd class="notes"></dd>
+					</dl>
+					<dl class="trait">
+		  			<dt>Investigation</dt>
+		  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+		  			<dd class="notes"></dd>
+					</dl>
+					<dl class="trait">
+		  			<dt>Medicine</dt>
+		  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+		  			<dd class="notes"></dd>
+					</dl>
+					<dl class="trait">
+		  			<dt>Occult</dt>
+		  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+		  			<dd class="notes"></dd>
+					</dl>
+					<dl class="trait">
+		  			<dt>Politics</dt>
+		  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+		  			<dd class="notes"></dd>
+					</dl>
+					<dl class="trait">
+		  			<dt>Science</dt>
+		  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+		  			<dd class="notes"></dd>
+					</dl>
+				</section>
 		</section>
+		<section id="abilities" class="span4">
+			<h3>Merits</h3>
+			<dl class="trait">
+				<dt class="input-append">
+						<input type="text" />
+						<div class="btn-group">
+							<button class="btn dropdown-toggle" data-toggle="dropdown">
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a href="#">Allies</a></li>
+								<li><a href="#">Contacts</a></li>
+							</ul>
+						</div>
+				</dt>
+					<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+			</dl>
+			<dl class="trait">
+				<dt class="input-append">
+						<input type="text" />
+						<div class="btn-group">
+							<button class="btn dropdown-toggle" data-toggle="dropdown">
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a href="#">Allies</a></li>
+								<li><a href="#">Contacts</a></li>
+							</ul>
+						</div>
+				</dt>
+					<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+			</dl>
+			<dl class="trait">
+				<dt class="input-append">
+						<input type="text" />
+						<div class="btn-group">
+							<button class="btn dropdown-toggle" data-toggle="dropdown">
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a href="#">Allies</a></li>
+								<li><a href="#">Contacts</a></li>
+							</ul>
+						</div>
+				</dt>
+					<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+			</dl>
+
+			<h3>Manifestations</h3>
+			<section id="manifestations" class="complete">
+				<header>
+					<span class="lead">0 CP Left</span>
+					<fieldset class="cp-choice">
+						<label>Spend CP <input type="radio" name="manifestation-spend" id="manifestation-spend-cp" value="cp" checked></label>
+						<label>Spend XP <input type="radio" name="manifestation-spend" id="manifestation-spend-xp" value="xp"></label>
+					</fieldset>
+					<button class="close">&times;</button>
+				</header>
+				<dl class="trait">
+	  			<dt>Boneyard</dt>
+	  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+	  			<dd class="notes"></dd>
+				</dl>
+				<dl class="trait">
+	  			<dt>Caul</dt>
+	  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+	  			<dd class="notes"></dd>
+				</dl>
+				<dl class="trait">
+	  			<dt>Curse</dt>
+	  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+	  			<dd class="notes"></dd>
+				</dl>
+				<dl class="trait">
+	  			<dt>Marionette</dt>
+	  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+	  			<dd class="notes"></dd>
+				</dl>
+				<dl class="trait">
+	  			<dt>Rage</dt>
+	  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+	  			<dd class="notes"></dd>
+				</dl>
+				<dl class="trait">
+	  			<dt>Shroud</dt>
+	  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+	  			<dd class="notes"></dd>
+				</dl>
+				<dl class="trait">
+	  			<dt>Pit</dt>
+	  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+	  			<dd class="notes"></dd>
+				</dl>
+			</section>
+
+			<h3>Keys</h3>
+			<dl class="trait">
+  			<dt>Cold Wind</dt>
+  			<dd class="dots"><input type="checkbox" /><label></label>
+			</dl>
+			<dl class="trait">
+  			<dt>Grave-Dirt</dt>
+  			<dd class="dots"><input type="checkbox" /><label></label>
+			</dl>
+			<dl class="trait">
+  			<dt>Pyre-Flame</dt>
+  			<dd class="dots"><input type="checkbox" /><label></label>
+			</dl>
+			<dl class="trait">
+  			<dt>Tear-Stained</dt>
+  			<dd class="dots"><input type="checkbox" /><label></label>
+			</dl>
+			<dl class="trait">
+  			<dt>Industrial</dt>
+  			<dd class="dots"><input type="checkbox" /><label></label>
+			</dl>
+			<dl class="trait">
+  			<dt>Passion</dt>
+  			<dd class="dots"><input type="checkbox" /><label></label>
+			</dl>
+			<dl class="trait">
+  			<dt>Phantasmal</dt>
+  			<dd class="dots"><input type="checkbox" /><label></label>
+			</dl>
+			<dl class="trait">
+  			<dt>Stigmata</dt>
+  			<dd class="dots"><input type="checkbox" /><label></label>
+			</dl>
+			<dl class="trait">
+  			<dt>Stillness</dt>
+  			<dd class="dots"><input type="checkbox" /><label></label>
+			</dl>
+			<dl class="trait">
+  			<dt>Stygian</dt>
+  			<dd class="dots"><input type="checkbox" /><label></label>
+			</dl>
+			
+  </section>
+  <section id="advantages" class="span4">
+		<h3>Health</h3>
+		<div class="dots tracker">
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+		</div>
+		<div class="boxes tracker">
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+		</div>
+
+		<h3>Willpower</h3>
+		<div class="dots tracker">
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+		</div>
+		<div class="boxes tracker">
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+		</div>
+
+		<h3>Psyche</h3>
+		<div class="dots tracker">
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+		</div>
+
+		<h3>Plasm</h3>
+		<div class="boxes tracker">
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+		</div>
+		<div class="boxes tracker">
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+		</div>
+		<div class="boxes tracker">
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+			<input type="checkbox" /><label></label>
+		</div>
   </section>
 </div>
   

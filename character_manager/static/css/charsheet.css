@@ -1,33 +1,147 @@
-#sheet .dl-horizontal dt
+/*Uses images from subtlepatterns.com*/
+body
+{
+	background: url('/static/img/bgstripes.png');
+}
+
+#sheet
+{
+	margin: 20px;
+	padding: 10px;
+	-webkit-box-shadow:  0px 0px 10px 5px rgba(0, 0, 0, 0.2);
+  box-shadow:  0px 0px 10px 5px rgba(0, 0, 0, 0.2);
+  background: url('/static/img/handmadepaper.png');
+}
+
+#sheet .span4 section
+{
+	padding: 5px;
+	border: solid 1px #ddd;
+}
+
+#sheet section header .lead
+{
+	line-height: 45px;
+}
+
+#sheet section.complete header
+{
+	background-color: #99ff99;
+}
+
+#sheet section.incomplete header
+{
+	background-color: #ffffcc;
+}
+
+#sheet section header
+{
+	padding: 5px;
+	margin: -5px;
+	position: relative;
+	height: 45px;
+	margin-bottom: 10px;
+}
+
+#sheet .cp-choice
+{
+	position: absolute;
+	padding: 5px;
+	top:0;
+	right:35px;
+	text-align: right;
+}
+
+#sheet .cp-choice *
+{
+	vertical-align: top;
+}
+
+#sheet dl.trait
+{
+	clear: both;
+	height: 20px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+#sheet dl.trait dt
 {
 	width: 100px;
+	float: left;
+	text-align: right;
 }
 
-#sheet .dl-horizontal dd
+#sheet dl.trait dt input[type="text"]
 {
-	margin-left: 105px;
+	width: auto;
+	height:14px;
 }
 
-#sheet .dl-horizontal input[type="checkbox"]
+#sheet dl.trait dt button
+{
+	height: 24px;
+	width: 24px;
+	padding: 0;
+}
+
+#sheet dl.trait dd.dots
+{
+	float: right;
+}
+
+#sheet dl.trait dd.notes
+{
+	width:100%;
+	margin-left: 100px;
+	margin-right: 100px;
+}
+
+#sheet .dots input[type="checkbox"],
+#sheet .boxes input[type="checkbox"]
 {
 	display: none;
 }
 
-#sheet .dl-horizontal input[type="checkbox"] + label
+#sheet .dots input[type="checkbox"] + label,
+#sheet .boxes input[type="checkbox"] + label
 {
 	display: inline-block;
-	width: 24px;
-	height: 24px;
+	width: 20px;
+	height: 20px;
+}
+
+#sheet .dots input[type="checkbox"] + label
+{
 	background: url('/static/img/dots.png') left top no-repeat;
 }
 
-#sheet .dl-horizontal input[type="checkbox"]:checked + label
+#sheet .boxes input[type="checkbox"] + label
 {
-	background-position: -24px top;
+	background: url('/static/img/boxes.png') left top no-repeat;
+}
+
+#sheet .dots input[type="checkbox"]:checked + label,
+#sheet .boxes input[type="checkbox"]:checked + label
+{
+	background-position: -20px top;
+}
+
+#sheet dl.trait ul.dropdown-menu
+{
+	text-align: left;
+	left: auto;
+	right: 0;
 }
 
 #sheet h3,
 #sheet h4
+{
+	text-align: center;
+	clear: both;
+}
+
+#sheet .tracker
 {
 	text-align: center;
 }
