@@ -4,8 +4,8 @@ from character_manager import views
 
 urlpatterns = patterns(
   '',
-  (r'^logout/$', 'django.contrib.auth.views.logout'),
-  (r'', include('django_openid_auth.urls')),  
+  #(r'^logout/$', 'django.contrib.auth.views.logout'),
+  #(r'', include('django_openid_auth.urls')),  
   url(r'partials/character\-list.html$', 
     view = views.character_list,
   ),

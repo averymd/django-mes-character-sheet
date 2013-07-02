@@ -34,7 +34,7 @@ Quick start
     ...
   )
 
-3. Include the polls URLconf in your project urls.py like this::
+3. Include the polls URLconf in your project urls.py like this:
 
   url(r'^character\-manager/', include('character_manager.urls')),
   url(r'^game\-manager/', include('game_manager.urls')),
