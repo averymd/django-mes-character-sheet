@@ -19,13 +19,19 @@ Quick start
 	django-sekizai 
 	south
 
+  Install these with "pip install django==1.3.1 djangorestframework python-openid django-sekizai south"
+
 2. Add "character_manager" and "game_manager" to your INSTALLED_APPS setting like this::
 
   INSTALLED_APPS = (
   	...
   	'character_manager',
   	'game_manager',
-	'sekizai'
+    'sekizai',
+    'rest_framework',
+    'south',
+    'openid',
+    ...
   )
 
 3. Include the polls URLconf in your project urls.py like this::
