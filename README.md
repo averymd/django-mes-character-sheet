@@ -13,29 +13,29 @@ Quick start
 -----------
 
 1. Make sure you have: 
-	Django 1.3.1
-	Django REST framework
-	django-sekizai 
-	south
+  * Django 1.3.1
+	* Django REST framework
+	* django-sekizai 
+	* south
 
-  Install these with "pip install django==1.3.1 djangorestframework django-sekizai south"
+  Install these with `pip install django==1.3.1 djangorestframework django-sekizai south`
 
-2. Add "character_manager" and "game_manager" to your INSTALLED_APPS setting like this::
+2. Add "character_manager" and "game_manager" to your INSTALLED_APPS setting like this:
 
-  INSTALLED_APPS = (
-  	...
-  	'character_manager',
-  	'game_manager',
-    'sekizai',
-    'rest_framework',
-    'south',
-    ...
-  )
+        INSTALLED_APPS = (
+          ...
+          'character_manager',
+          'game_manager',
+          'sekizai',
+          'rest_framework',
+          'south',
+          ...
+        )
 
 3. Include the character manager and game manager URLconfs in your project urls.py like this:
 
-  url(r'^character\-manager/', include('character_manager.urls')),
-  url(r'^game\-manager/', include('game_manager.urls')),
+        url(r'^character\-manager/', include('character_manager.urls')),
+        url(r'^game\-manager/', include('game_manager.urls')),
 
 4. Run `python manage.py syncdb` and `python manage.py migratedb` to create the game manager models.
 
