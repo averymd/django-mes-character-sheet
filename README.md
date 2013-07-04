@@ -15,11 +15,10 @@ Quick start
 1. Make sure you have: 
 	Django 1.3.1
 	Django REST framework
-	python-openid
 	django-sekizai 
 	south
 
-  Install these with "pip install django==1.3.1 djangorestframework python-openid django-sekizai south"
+  Install these with "pip install django==1.3.1 djangorestframework django-sekizai south"
 
 2. Add "character_manager" and "game_manager" to your INSTALLED_APPS setting like this::
 
@@ -30,11 +29,10 @@ Quick start
     'sekizai',
     'rest_framework',
     'south',
-    'openid',
     ...
   )
 
-3. Include the polls URLconf in your project urls.py like this:
+3. Include the character manager and game manager URLconfs in your project urls.py like this:
 
   url(r'^character\-manager/', include('character_manager.urls')),
   url(r'^game\-manager/', include('game_manager.urls')),
