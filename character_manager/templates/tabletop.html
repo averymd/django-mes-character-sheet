@@ -1,4 +1,5 @@
 {% extends "bare_bones.html" %}
+{% load tags %}
 
 {% block html_extras %}ng-app="characterSheet"{% endblock %}
 {% block title %}The Charon Sheet - {{ page_title }}{% endblock %}
@@ -9,15 +10,24 @@
 <script src="{{ STATIC_URL }}js/libs/jquery-ui.min.js"></script>
 <script src="{{ STATIC_URL }}js/libs/bootstrap.min.js"></script>
 <script src="{{ STATIC_URL }}js/tabletop.js"></script>
+<script src="{{ STATIC_URL }}js/libs/handlebars-1.0.0-rc.4.js"></script>
+<script src="{{ STATIC_URL }}js/libs/ember-1.0.0-rc.6.js"></script>
+<script src="{{ STATIC_URL }}js/libs/ember-data-0.13.js"></script>
+<script src="{{ STATIC_URL }}js/app.js"></script>
+<script src="{{ STATIC_URL }}js/models/character.js"></script>
+<script src="{{ STATIC_URL }}js/models/store.js"></script>
 {% endblock %}
 
 {% block content %}
+{% raw %}
+<script type="text/x-handlebars" data-template-name="tabletop">
+{{#each controller}}
 <div id="sheet">
 	<h2>Geist: The Sin-Eaters</h2>
   <div id="basic-info" class="row">
 		<dl id="identifiers" class="span4 dl-horizontal">
 			<dt>Name</dt>
-				<dd>Archibald Fortinbras Barrayan</dd>
+				<dd>{{name}}</dd>
 			<dt>Geist</dt>
 		</dl>
 		<dl id="personality" class="span4 dl-horizontal">
@@ -471,5 +481,7 @@
 	</table>
 	<a href="#" class="btn btn-block addtrait"><span class="icon-plus-sign"></span> Add Entry</a>
 </div>
-
+{{/each}}
+</script>
+{% endraw %}
 {% endblock %}
