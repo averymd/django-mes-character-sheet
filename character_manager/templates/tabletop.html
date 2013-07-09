@@ -1,7 +1,6 @@
 {% extends "bare_bones.html" %}
 {% load tags %}
 
-{% block html_extras %}ng-app="characterSheet"{% endblock %}
 {% block title %}The Charon Sheet - {{ page_title }}{% endblock %}
 {% block headertitle %}{{ page_title }}{% endblock %}
 {% block pageclass %}{{ page_name }}{% endblock %}
@@ -20,19 +19,36 @@
 
 {% block content %}
 {% raw %}
+<script type="text/x-handlebars">
+	{{outlet}}
+</script>
+
+<script type="text/x-handlebars" data-template-name="trait">
+	<dl class="trait">
+		<dt>{{view.trait}}</dt>
+		<dd class="dots">
+			{{dots view.idPrefix view.numDots}}
+		</dd>
+
+		<dd class="notes"></dd>
+	</dl>
+</script>
+
 <script type="text/x-handlebars" data-template-name="tabletop">
-{{#each controller}}
+//{{#each character in controller}}
 <div id="sheet">
-	<h2>Geist: The Sin-Eaters</h2>
+	<h2>Geist: The Sin-Eaters {{character.name}}</h2>
   <div id="basic-info" class="row">
 		<dl id="identifiers" class="span4 dl-horizontal">
 			<dt>Name</dt>
-				<dd>{{name}}</dd>
+				<dd>{{view Ember.TextField valueBinding="character.name"}}</dd>
 			<dt>Geist</dt>
 		</dl>
 		<dl id="personality" class="span4 dl-horizontal">
 			<dt>Virtue</dt>
+				<dd>{{view Ember.Select contentBinding="CharonSheet.virtues" }}</dd>
 			<dt>Vice</dt>
+				<dd>{{view Ember.Select contentBinding="CharonSheet.vices"}}
 			<dt>Concept</dt>
 		</dl>
 		<dl id="demographics" class="span4 dl-horizontal">
@@ -150,46 +166,45 @@
 						</fieldset>
 						<button class="close">&times;</button>
 					</header>
-					<dl class="trait">
-		  			<dt>Academics</dt>
-		  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
-		  			<dd class="notes"></dd>
-					</dl>
-					<dl class="trait">
-		  			<dt>Computer</dt>
-		  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
-		  			<dd class="notes"></dd>
-					</dl>
-					<dl class="trait">
-		  			<dt>Crafts</dt>
-		  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
-		  			<dd class="notes"></dd>
-					</dl>
-					<dl class="trait">
-		  			<dt>Investigation</dt>
-		  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
-		  			<dd class="notes"></dd>
-					</dl>
-					<dl class="trait">
-		  			<dt>Medicine</dt>
-		  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
-		  			<dd class="notes"></dd>
-					</dl>
-					<dl class="trait">
-		  			<dt>Occult</dt>
-		  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
-		  			<dd class="notes"></dd>
-					</dl>
-					<dl class="trait">
-		  			<dt>Politics</dt>
-		  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
-		  			<dd class="notes"></dd>
-					</dl>
-					<dl class="trait">
-		  			<dt>Science</dt>
-		  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
-		  			<dd class="notes"></dd>
-					</dl>
+					{{#each skill in CharonSheet.skills.mental}}
+						{{view CharonSheet.TraitView traitBinding="skill"}}
+					{{/each}}
+				</section>
+			<h4>Physical</h4>
+				<section id="physical-skills" class="incomplete spend-category">
+					<header>
+						<span class="lead">6 CP Left</span>
+						<fieldset class="cp-choice">
+							<label>Spend CP <input type="radio" name="physical-skills-spend" id="physical-skills-spend-cp" value="cp" checked></label>
+							<label>Spend XP <input type="radio" name="physical-skills-spend" id="physical-skills-spend-xp" value="xp"></label>
+						</fieldset>
+						<button class="close">&times;</button>
+					</header>
+					{{#each skill in CharonSheet.skills.physical}}
+						<dl class="trait">
+			  			<dt>{{skill}}</dt>
+			  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+			  			<dd class="notes"></dd>
+						</dl>
+					{{/each}}
+				</section>
+			<h4>Social</h4>
+				<section id="social-skills" class="incomplete spend-category">
+					<header>
+						<span class="lead">6 CP Left</span>
+						<fieldset class="cp-choice">
+							<label>Spend CP <input type="radio" name="social-skills-spend" id="social-skills-spend-cp" value="cp" checked></label>
+							<label>Spend XP <input type="radio" name="social-skills-spend" id="social-skills-spend-xp" value="xp"></label>
+						</fieldset>
+						<button class="close">&times;</button>
+					</header>
+					{{#each skill in CharonSheet.skills.social}}
+						<dl class="trait">
+			  			<dt>{{skill}}</dt>
+			  			<dd class="dots"><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label><input type="checkbox" /><label></label></dd>
+			  			<dd class="notes"></dd>
+						</dl>
+					{{/each}}
 				</section>
 		</section>
 		<section id="abilities" class="span4">
@@ -481,7 +496,7 @@
 	</table>
 	<a href="#" class="btn btn-block addtrait"><span class="icon-plus-sign"></span> Add Entry</a>
 </div>
-{{/each}}
+//{{/each}}
 </script>
 {% endraw %}
 {% endblock %}
